@@ -9,7 +9,7 @@ entity Customers {
     key ID       : Integer;
         name     : String(25);
         invoices : Association to many Invoices
-                       on invoices.customerID = $self;
+                       on invoices.customer = $self;
 }
 
 entity Users {
@@ -18,32 +18,34 @@ entity Users {
         username : String(25);
         password : String(25);
         invoices : Association to many Invoices
-                       on invoices.createdBy = $self
+                       on invoices.created_by = $self
 }
 
 entity Invoices {
-    key ID         : Integer;
-        customerID : Association to Customers;
-        total      : Double;
-        currency   : Currency;
-        createdBy  : Association to Users; //@cds.on.insert: $Managers;
-        createdAt  : Timestamp @cds.on.insert: $now;
-}
-
-entity InvoiceItems {
-    key ID        : Integer;
-    key invoiceID : Integer;
-        quantity  : Integer;
-        invoice   : Association to Invoices
-                        on invoice.ID = $self.invoiceID;
+    key ID          : Integer;
+        customer : Association to Customers;
+        total       : Double;
+        currency    : Currency;
+        items       : Composition of many InvoiceItems
+                          on items.invoice = $self;
+        created_by  : Association to Users; //@cds.on.insert: $Managers;
+        created_at  : Timestamp @cds.on.insert: $now;
 }
 
 entity Products {
-    key ID         : Integer;
-        name       : String;
-        price      : Double;
-        currency   : Currency;
-        stock      : Integer;
-        createdAt  : Timestamp;
-        modifiedAt : Timestamp;
+    key ID          : Integer;
+        name        : String;
+        price       : Double;
+        currency    : Currency;
+        stock       : Integer;
+        created_at  : Timestamp;
+        modified_at : Timestamp;
+        invoices    : Composition of many InvoiceItems
+                          on invoices.item = $self
+}
+
+entity InvoiceItems {
+    key invoice  : Association to Invoices;
+    key item     : Association to Products;
+        quantity : Integer;
 }

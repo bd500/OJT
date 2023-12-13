@@ -10,6 +10,7 @@
     "@sap/cds-hana": "^2",
     "@sap/hdi-deploy": "^4.8.2",
     "@sap/xssec": "^3",
+    "cds-swagger-ui-express": "^0.7.0",
     "express": "^4",
     "passport": "^0"
   },
@@ -19,7 +20,8 @@
   },
   "scripts": {
     "start": "cds-serve",
-    "watch": "cds watch"
+    "local": "cds watch",
+    "hybrid": "cds watch --profile hybrid"
   },
   "cds": {
     "requires": {

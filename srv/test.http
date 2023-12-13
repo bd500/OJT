@@ -1,0 +1,19 @@
+@server = http://localhost:4004
+
+
+### ------------------------------------------------------------------------
+# Get service info
+GET {{server}}/invoices/InvoiceItems
+
+### ------------------------------------------------------------------------
+# Get service info
+POST  {{server}}/invoices/InvoiceItems
+Content-Type: application/json
+
+{
+      "invoice_ID": 4,
+      "item_ID": 1,
+      "quantity": 3
+    }
+
+### ------------------------------------------------------------------------

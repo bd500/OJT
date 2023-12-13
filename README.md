@@ -19,6 +19,25 @@ File or Folder | Purpose
 - (in VS Code simply choose _**Terminal** > Run Task > cds watch_)
 - Start adding content, for example, a [db/schema.cds](db/schema.cds).
 
+## Hybrid Testing
+
+First, run this command to bind the Cloud Foudary
+```bash
+cds bind -2 my-hdi-name:my-hana-key
+```
+
+Then, add this script into the package.json under the scripts props:
+
+```json
+"scripts": {
+    "hybrid": "cds watch --profile hybrid"
+  }
+```
+
+Finally, to run:
+```bash
+npm run hybrid
+```
 
 ## Learn More
 

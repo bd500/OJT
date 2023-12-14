@@ -5,47 +5,40 @@ using {
 
 namespace mydb;
 
-entity Customers {
-    key ID       : Integer;
-        name     : String(25);
-        invoices : Association to many Invoices
-                       on invoices.customer = $self;
-}
-
-entity Users {
-    key ID       : Integer;
-        name     : String(25);
-        username : String(25);
-        password : String(25);
-        invoices : Association to many Invoices
-                       on invoices.created_by = $self
-}
-
-entity Invoices {
-    key ID          : Integer;
-        customer : Association to Customers;
-        total       : Double;
-        currency    : Currency;
-        items       : Composition of many InvoiceItems
-                          on items.invoice = $self;
-        created_by  : Association to Users; //@cds.on.insert: $Managers;
-        created_at  : Timestamp @cds.on.insert: $now;
-}
-
-entity Products {
+entity Managers : managed {
     key ID          : Integer;
         name        : String;
-        price       : Double;
-        currency    : Currency;
-        stock       : Integer;
-        created_at  : Timestamp;
-        modified_at : Timestamp;
-        invoices    : Composition of many InvoiceItems
-                          on invoices.item = $self
+        inventories : Association to Inventories
+                          on inventories.manager = $self;
 }
 
-entity InvoiceItems {
-    key invoice  : Association to Invoices;
-    key item     : Association to Products;
-        quantity : Integer;
+entity Inventories : managed {
+    key ID      : Integer;
+        name    : String;
+        manager : Association to Managers;
+        items   : Association to Items
+                      on items.inventory = $self;
+}
+
+entity Items {
+    key ID         : Integer;
+        name       : String;
+        price      : Double;
+        quantity   : Integer;
+        recentDate : Date;
+        inventory  : Association to Inventories;
+}
+
+entity Bills {
+    key ID       : Integer;
+        datatime : DateTime;
+        customer : String;
+        exporter : String;
+        items    : Composition of many BillItems
+                       on items.bill = $self;
+}
+
+entity BillItems {
+    key bill  : Association to Bills;
+    key items : Association to Items;
 }

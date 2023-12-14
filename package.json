@@ -8,9 +8,10 @@
   "dependencies": {
     "@sap/cds": "^7",
     "@sap/cds-hana": "^2",
-    "@sap/hdi-deploy": "^4.8.2",
+    "@sap/hdi-deploy": "^4.9.0",
     "@sap/xssec": "^3",
     "cds-swagger-ui-express": "^0.7.0",
+    "core-util-is": "^1.0.3",
     "express": "^4",
     "passport": "^0"
   },

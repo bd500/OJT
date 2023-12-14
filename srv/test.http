@@ -1,9 +1,12 @@
 @server = http://localhost:4004
 
+### ------------------------------------------------------------------------
+# Get service info
+GET {{server}}/bills/Bills
 
 ### ------------------------------------------------------------------------
 # Get service info
-GET {{server}}/invoices/InvoiceItems
+GET {{server}}/bills/InvoiceItems
 
 ### ------------------------------------------------------------------------
 # Get service info

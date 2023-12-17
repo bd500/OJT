@@ -14,7 +14,7 @@ namespace mydb;
 //                   on inventories.manager = $self;
 // }
 
-entity Inventories : managed {
+entity ItemHistory : managed {
     key ID         : Integer;
         item       : Association to Items;
         //  on item.inventory = $self;
@@ -29,7 +29,9 @@ entity Items {
         stock      : Integer;
         lastUpdate : Timestamp;
         bill       : Composition of many BillItems
-                         on bill.item = $self
+                         on bill.item = $self;
+        history    : Composition of many ItemHistory
+                         on history.item = $self
 }
 
 entity Bills {

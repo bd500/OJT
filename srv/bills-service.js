@@ -14,30 +14,47 @@ module.exports = cds.service.impl(async function () {
     };
 
     this.before("SAVE", "Bills", async (req) => {
-        const items_data = req.data.items;
-        const items_id = items_data.ID;
-        const items = await SELECT.from(Items).where`ID = any (${items_id})`;
-        for (var item of items) {
-            const check = items_data.find((e) => e.ID === item.ID);
-            if (check.stock < item.quantity)
+        const itemsId = req.data.items.map((e) => e.item_ID);
+
+        //get the ID and quantity of order items and put it into a map
+        const myItemsMap = req.data.items.reduce(
+            (map, i) => map.set(i.item_ID, i.quantity),
+            new Map()
+        );
+
+        const items = await SELECT.from(Items)
+            .columns((c) => {
+                c.ID, c.name, c.stock;
+            })
+            .where({
+                ID: itemsId,
+            });
+
+        for (let item of items) {
+            // const check = items.find((e) => e.ID === item.ID);
+            // if (check.stock < item.quantity)
+            //     req.error(
+            //         400,
+            //         `Not enough stock for ${check.name}`,
+            //         "quantity"
+            //     );
+            console.log(myItemsMap.get(item.ID));
+            if (item.stock < myItemsMap.get(item.ID))
                 req.error(
                     400,
-                    `Not enough stock for ${check.name}`,
+                    `The order for ${item.name} exceeds current stock`,
                     "quantity"
                 );
         }
     });
-    this.after("SAVE", "Bills", async (req) => {});
-    this.before("GET", "Bills", async () => {
-        // const res = await SELECT.from(BillItems)
-        //     .columns()
-        //     .where({ bill_ID: 1 });
-        // const res = await this.send({
-        //     event: "getCurrentStock",
-        //     data: 1,
+    this.on("POST", "Bills", async (req) => {
+        console.log("Inside post");
+        return req.data;
+    });
+    this.after("SAVE", "Bills", async (req) => {
+        // const items_id = req.data.items[0].ID;
+        // const items = SELECT.from(Items).where({
+        //     ID: items_id,
         // });
-
-        console.log(await getCurrentStock(1));
-        // console.log(res);
     });
 });

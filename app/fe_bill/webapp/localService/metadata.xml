@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="BillsManagement" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Bills" EntityType="BillsManagement.Bills">
+                    <NavigationPropertyBinding Path="items" Target="BillItems"/>
+                </EntitySet>
+                <EntitySet Name="ItemHistory" EntityType="BillsManagement.ItemHistory">
+                    <NavigationPropertyBinding Path="item" Target="Items"/>
+                </EntitySet>
+                <EntitySet Name="Items" EntityType="BillsManagement.Items">
+                    <NavigationPropertyBinding Path="bill" Target="BillItems"/>
+                    <NavigationPropertyBinding Path="history" Target="ItemHistory"/>
+                </EntitySet>
+                <EntitySet Name="BillItems" EntityType="BillsManagement.BillItems">
+                    <NavigationPropertyBinding Path="bill" Target="Bills"/>
+                    <NavigationPropertyBinding Path="item" Target="Items"/>
+                </EntitySet>
+            </EntityContainer>
+            <EntityType Name="Bills">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="customer" Type="Edm.String"/>
+                <Property Name="exporter" Type="Edm.String"/>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <NavigationProperty Name="items" Type="Collection(BillsManagement.BillItems)" Partner="bill">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <Property Name="total" Type="Edm.Double"/>
+            </EntityType>
+            <EntityType Name="ItemHistory">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <NavigationProperty Name="item" Type="BillsManagement.Items" Partner="history">
+                    <ReferentialConstraint Property="item_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="item_ID" Type="Edm.Int32"/>
+                <Property Name="date" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="quantity" Type="Edm.Int32"/>
+                <Property Name="note" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="Items">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="name" Type="Edm.String"/>
+                <Property Name="price" Type="Edm.Double"/>
+                <Property Name="stock" Type="Edm.Int32"/>
+                <Property Name="lastUpdate" Type="Edm.DateTimeOffset" Precision="7"/>
+                <NavigationProperty Name="bill" Type="Collection(BillsManagement.BillItems)" Partner="item">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <NavigationProperty Name="history" Type="Collection(BillsManagement.ItemHistory)" Partner="item">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="BillItems">
+                <Key>
+                    <PropertyRef Name="bill_ID"/>
+                    <PropertyRef Name="item_ID"/>
+                </Key>
+                <NavigationProperty Name="bill" Type="BillsManagement.Bills" Partner="items">
+                    <ReferentialConstraint Property="bill_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="bill_ID" Type="Edm.Int32" Nullable="false"/>
+                <NavigationProperty Name="item" Type="BillsManagement.Items" Partner="bill">
+                    <ReferentialConstraint Property="item_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="item_ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="quantity" Type="Edm.Int32"/>
+            </EntityType>
+            <Annotations Target="BillsManagement.Bills/createdAt">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="BillsManagement.ItemHistory/date">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

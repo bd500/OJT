@@ -1,25 +1,16 @@
 using {
     managed,
-    Currency,
+    cuid,
 } from '@sap/cds/common';
 
 namespace mydb;
 
-// entity Managers {
-//     key ID       : Integer;
-//         name     : String;
-//         username : String;
-//         password : String;
-// inventories : Association to Inventories
-//                   on inventories.manager = $self;
-// }
-
-entity ItemHistory : managed {
-    key ID         : Integer;
-        item       : Association to Items;
-        //  on item.inventory = $self;
-        importDate : Timestamp;
-        quantity   : Integer
+entity ItemHistory : cuid {
+    item     : Association to Items;
+    //  on item.inventory = $self;
+    date     : Timestamp @cds.on.insert: $now;
+    quantity : Integer;
+    note     : String;
 }
 
 entity Items {
@@ -38,7 +29,7 @@ entity Bills {
     key ID        : Integer;
         customer  : String;
         exporter  : String;
-        createdAt : Timestamp;
+        createdAt : Timestamp @cds.on.insert: $now;
         items     : Composition of many BillItems
                         on items.bill = $self;
         total     : Double;

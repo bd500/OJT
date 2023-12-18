@@ -14,6 +14,7 @@ module.exports = cds.service.impl(async function () {
     };
 
     this.before("SAVE", "Bills", async (req) => {
+        console.log("Method call: ", req.method);
         const itemsId = req.data.items.map((e) => e.item_ID);
 
         //get the ID and quantity of order items and put it into a map
@@ -31,18 +32,10 @@ module.exports = cds.service.impl(async function () {
             });
 
         for (let item of items) {
-            // const check = items.find((e) => e.ID === item.ID);
-            // if (check.stock < item.quantity)
-            //     req.error(
-            //         400,
-            //         `Not enough stock for ${check.name}`,
-            //         "quantity"
-            //     );
-            console.log(myItemsMap.get(item.ID));
             if (item.stock < myItemsMap.get(item.ID))
                 req.error(
                     400,
-                    `The order for ${item.name} exceeds current stock`,
+                    `The quantity for ${item.name} exceeds current stock`,
                     "quantity"
                 );
         }
@@ -51,7 +44,8 @@ module.exports = cds.service.impl(async function () {
         console.log("Inside post");
         return req.data;
     });
-    this.after("SAVE", "Bills", async (req) => {
+    this.after("SAVE", "Bills", async (res, req) => {
+        console.log(req);
         // const items_id = req.data.items[0].ID;
         // const items = SELECT.from(Items).where({
         //     ID: items_id,

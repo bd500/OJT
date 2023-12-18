@@ -1,4 +1,6 @@
 {
     "editor.formatOnSave": true,
-    "oneDarkPro.italic": false
+    "oneDarkPro.italic": false,
+    "prettier.tabWidth": 4,
+    "files.autoSave": "off"
 }

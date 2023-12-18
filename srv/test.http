@@ -1,19 +1,36 @@
 @server = http://localhost:4004
 
+### ------------------------------------------------------------------------
+# Get service info
+GET {{server}}/bills/Bills
 
 ### ------------------------------------------------------------------------
 # Get service info
-GET {{server}}/invoices/InvoiceItems
+GET {{server}}/bills/Bills(1)
 
 ### ------------------------------------------------------------------------
 # Get service info
-POST  {{server}}/invoices/InvoiceItems
+POST  {{server}}/bills/Bills
 Content-Type: application/json
 
 {
-      "invoice_ID": 4,
-      "item_ID": 1,
-      "quantity": 3
-    }
+  "ID": 0,
+  "customer": "string",
+  "exporter": "string",
+  "createdAt": "2017-04-13T15:51:04.0000000Z",
+  "total": 3.14,
+  "items": [
+    {
+      "bill_ID": 1,
+      "item_ID": 3,
+      "quantity": 1
+    },
+    {
+    "bill_ID": 1,
+    "item_ID": 2,
+    "quantity": 1000
+    }        
+  ]
+}
 
 ### ------------------------------------------------------------------------

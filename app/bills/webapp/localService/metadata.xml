@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+        <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="BillsManagement" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Bills" EntityType="BillsManagement.Bills">
+                    <NavigationPropertyBinding Path="items" Target="BillsItems"/>
+                </EntitySet>
+                <EntitySet Name="BillsItems" EntityType="BillsManagement.BillsItems">
+                    <NavigationPropertyBinding Path="bill" Target="Bills"/>
+                    <NavigationPropertyBinding Path="item" Target="Items"/>
+                </EntitySet>
+                <EntitySet Name="ItemHistory" EntityType="BillsManagement.ItemHistory">
+                    <NavigationPropertyBinding Path="item" Target="Items"/>
+                </EntitySet>
+                <EntitySet Name="Items" EntityType="BillsManagement.Items">
+                    <NavigationPropertyBinding Path="bill" Target="BillsItems"/>
+                    <NavigationPropertyBinding Path="history" Target="ItemHistory"/>
+                </EntitySet>
+            </EntityContainer>
+            <EntityType Name="Bills">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="customer" Type="Edm.String"/>
+                <Property Name="exporter" Type="Edm.String"/>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <NavigationProperty Name="items" Type="Collection(BillsManagement.BillsItems)" Partner="bill">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <Property Name="total" Type="Edm.Double"/>
+            </EntityType>
+            <EntityType Name="BillsItems">
+                <Key>
+                    <PropertyRef Name="bill_ID"/>
+                    <PropertyRef Name="item_ID"/>
+                </Key>
+                <NavigationProperty Name="bill" Type="BillsManagement.Bills" Partner="items">
+                    <ReferentialConstraint Property="bill_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="bill_ID" Type="Edm.Int32" Nullable="false"/>
+                <NavigationProperty Name="item" Type="BillsManagement.Items" Partner="bill">
+                    <ReferentialConstraint Property="item_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="item_ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="quantity" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="ItemHistory">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <NavigationProperty Name="item" Type="BillsManagement.Items" Partner="history">
+                    <ReferentialConstraint Property="item_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="item_ID" Type="Edm.Int32"/>
+                <Property Name="importDate" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="quantity" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="Items">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="name" Type="Edm.String"/>
+                <Property Name="price" Type="Edm.Double"/>
+                <Property Name="stock" Type="Edm.Int32"/>
+                <Property Name="lastUpdate" Type="Edm.DateTimeOffset" Precision="7"/>
+                <NavigationProperty Name="bill" Type="Collection(BillsManagement.BillsItems)" Partner="item">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <NavigationProperty Name="history" Type="Collection(BillsManagement.ItemHistory)" Partner="item">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+            </EntityType>
+            <Annotations Target="BillsManagement.ItemHistory/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+                </Annotations>
+                <Annotations Target="BillsManagement.ItemHistory/createdBy">
+                    <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                    <Annotation Term="Core.Immutable" Bool="true"/>
+                    <Annotation Term="Core.Computed" Bool="true"/>
+                    <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+                        </Annotations>
+                        <Annotations Target="BillsManagement.ItemHistory/modifiedAt">
+                            <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                            <Annotation Term="Core.Computed" Bool="true"/>
+                            <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+                            </Annotations>
+                            <Annotations Target="BillsManagement.ItemHistory/modifiedBy">
+                                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                <Annotation Term="Core.Computed" Bool="true"/>
+                                <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                    <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                    </Annotations>
+                                    <Annotations Target="BillsManagement.EntityContainer/Items">
+                                        <Annotation Term="Capabilities.DeleteRestrictions">
+                                            <Record Type="Capabilities.DeleteRestrictionsType">
+                                                <PropertyValue Property="Deletable" Bool="false"/>
+                                            </Record>
+                                        </Annotation>
+                                        <Annotation Term="Capabilities.InsertRestrictions">
+                                            <Record Type="Capabilities.InsertRestrictionsType">
+                                                <PropertyValue Property="Insertable" Bool="false"/>
+                                            </Record>
+                                        </Annotation>
+                                        <Annotation Term="Capabilities.UpdateRestrictions">
+                                            <Record Type="Capabilities.UpdateRestrictionsType">
+                                                <PropertyValue Property="Updatable" Bool="false"/>
+                                            </Record>
+                                        </Annotation>
+                                    </Annotations>
+                                </Schema>
+                            </edmx:DataServices>
+                        </edmx:Edmx>

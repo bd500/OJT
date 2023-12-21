@@ -1,4 +1,6 @@
 const cds = require("@sap/cds");
+const { equal } = require("assert");
+const { redirect } = require("express/lib/response");
 
 const { Bills, Items, ItemHistory } = cds.entities;
 
@@ -57,4 +59,33 @@ module.exports = cds.service.impl(async function () {
     const validateQuantity = (items) => {
         for (let i of items) if (i.quantity < 0) return false;
     };
+
+
+    this.on('READ', 'Items', async (req) => {
+        const searchTerm = 'Shoes';
+
+        const searchResults = await
+            SELECT(Items)
+
+        return searchResults;
+    });
+    // --------------------------------------------------
+    // add item
+    this.after(["POST", "PUT"], "Items", async (res) => {
+        console.log(res.name);
+        const date = new Date().toISOString();
+
+
+        // Perform deep insert
+        // await INSERT.into(Items).entries(res);
+        await INSERT.into(ItemHistory).entries({
+            item_ID: res.ID,  // Assuming 'cuid' is the primary key of Items
+            date: date,
+            quantity: res.stock
+        });
+        return res;
+    });
+
+
+
 });

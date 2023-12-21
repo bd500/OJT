@@ -1,0 +1,31 @@
+<mvc:View 
+controllerName="ns.items.controller.Details"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:semantic="sap.f.semantic">
+    <VBox>
+        <Text text="{detailsModel>/name}" />
+        <Text text="{detailsModel>/price}" />
+        <Text text="{detailsModel>/stock}" />
+        <!-- Add controls for displaying history -->
+        <Table items="{detailsModel>/history}">
+            <!-- Define columns and bindings for history -->
+            <columns>
+                <Column>
+                    <Text text="Date" />
+                </Column>
+                <Column>
+                    <Text text="Quantity" />
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem>
+                    <cells>
+                        <Text text="{date}" />
+                        <Text text="{quantity}" />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </VBox>
+</mvc:View>

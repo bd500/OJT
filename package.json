@@ -1,39 +1,40 @@
 {
-    "name": "OJT-Project",
-    "version": "1.0.0",
-    "description": "A simple CAP project.",
-    "repository": "<Add your repository here>",
-    "license": "UNLICENSED",
-    "private": true,
-    "dependencies": {
-        "@sap/cds": "^7",
-        "@sap/cds-hana": "^2",
-        "@sap/hdi-deploy": "^4.9.0",
-        "@sap/xssec": "^3",
-        "cds-swagger-ui-express": "^0.7.0",
-        "core-util-is": "^1.0.3",
-        "express": "^4",
-        "passport": "^0"
-    },
-    "devDependencies": {
-        "@cap-js/sqlite": "^1",
-        "@sap/cds-dk": "^7",
-        "@sap/ux-specification": "^1.120.1",
-        "rimraf": "^3.0.2"
-    },
-    "scripts": {
-        "start": "cds-serve",
-        "local": "cds watch",
-        "hybrid": "cds watch --profile hybrid",
-        "watch-fe_bill": "cds watch --open fe_bill/webapp/index.html?sap-ui-xx-viewCache=false",
-        "undeploy": "cf undeploy OJT-Project --delete-services --delete-service-keys --delete-service-brokers",
-        "build": "rimraf resources mta_archives && mbt build --mtar archive",
-        "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
-    },
-    "cds": {
-        "requires": {
-            "auth": "dummy",
-            "db": "hana"
-        }
+  "name": "OJT-Project",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "^7",
+    "@sap/cds-hana": "^2",
+    "@sap/hdi-deploy": "^4.9.0",
+    "@sap/xssec": "^3",
+    "cds-swagger-ui-express": "^0.7.0",
+    "core-util-is": "^1.0.3",
+    "express": "^4",
+    "passport": "^0"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^7",
+    "@sap/ux-specification": "^1.120.1",
+    "rimraf": "^3.0.2"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "local": "cds watch",
+    "hybrid": "cds watch --profile hybrid",
+    "watch-fe_bill": "cds watch --open fe_bill/webapp/index.html?sap-ui-xx-viewCache=false",
+    "undeploy": "cf undeploy OJT-Project --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
+    "watch-items": "cds watch --open items/webapp/index.html?sap-ui-xx-viewCache=false"
+  },
+  "cds": {
+    "requires": {
+      "auth": "dummy",
+      "db": "hana"
     }
+  }
 }

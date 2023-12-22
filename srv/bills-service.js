@@ -71,8 +71,7 @@ module.exports = cds.service.impl(async function () {
     });
     // --------------------------------------------------
     // add item
-    this.after(["POST", "PUT"], "Items", async (res) => {
-        console.log(res.name);
+    this.after(["POST"], "Items", async (res) => {
         const date = new Date().toISOString();
 
 
@@ -83,6 +82,18 @@ module.exports = cds.service.impl(async function () {
             date: date,
             quantity: res.stock
         });
+        return res;
+    });
+    // ----------------------------------------------------
+    // update item
+    this.after(["PATCH", "PUT"], "Items", async (res) => {
+        const date = new Date().toISOString();
+        await UPDATE(ItemHistory)
+            .set({
+                quantity: { "+=": res.stock },
+                date: date,
+            })
+            .where({ item_ID: res.ID });
         return res;
     });
 

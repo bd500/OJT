@@ -1,31 +1,24 @@
 <mvc:View 
-controllerName="ns.items.controller.Details"
+    controllerName="ns.items.controller.Details"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m"
     xmlns:semantic="sap.f.semantic">
-    <VBox>
-        <Text text="{detailsModel>/name}" />
-        <Text text="{detailsModel>/price}" />
-        <Text text="{detailsModel>/stock}" />
-        <!-- Add controls for displaying history -->
-        <Table items="{detailsModel>/history}">
-            <!-- Define columns and bindings for history -->
-            <columns>
-                <Column>
-                    <Text text="Date" />
-                </Column>
-                <Column>
-                    <Text text="Quantity" />
-                </Column>
-            </columns>
+
+    <VBox class="detailsContainer sapUiContentPadding">
+        <!-- First Vertical Row for Item Info (Table-like) -->
+        <HBox class="itemInfoRow">
             <items>
-                <ColumnListItem>
-                    <cells>
-                        <Text text="{date}" />
-                        <Text text="{quantity}" />
-                    </cells>
-                </ColumnListItem>
+                <Text text="{detailsModel>/name}" class="sapUiLargeMarginEnd"/>
+                <Text text="{detailsModel>/price}" class="sapUiLargeMarginEnd"/>
+                <Text text="{detailsModel>/stock}" class="sapUiLargeMarginEnd"/>
             </items>
-        </Table>
+        </HBox>
+
+        <!-- Second Half for History (List-like) -->
+        <List items="{detailsModel>/history}" class="sapUiResponsiveMargin">
+            <items>
+                <StandardListItem title="{detailsModel>date}" description="{detailsModel>quantity}" />
+            </items>
+        </List>
     </VBox>
 </mvc:View>

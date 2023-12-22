@@ -25,7 +25,7 @@ sap.ui.define([
         _loadItemDetails: async function (itemId) {
             try {
                 // Fetch item details using the Fetch API
-                const response = await fetch("/bills/Items(" + itemId + ")");
+                const response = await fetch(`/bills/Items/${itemId}`);
                 const data = await response.json();
                 console.log('resdata: ' + data.ID);
 

@@ -2,19 +2,36 @@
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m"
     xmlns:semantic="sap.f.semantic">
+
+
     <Dialog id="OpenDialog" title="Create new item">
       <buttons>
          <Button id="confirmCreate" text="Create" press=".onCreate" type="Emphasized" />
          <Button id="cancelCreate" text="Cancel" press="onCancelDialog" type="Transparent" />
      </buttons>
           <Label text="Item Name" />
-          <Input id="idItemName" rows="4" />
+          <Input id="idItemName" />
           <Label text="Price" />
-          <Input id="idPrice" rows="4" />
+          <Input id="idPrice" />
           <Label text="Stock" />
-          <Input id="idStock" rows="4" />
+          <Input id="idStock" />
     </Dialog>
 
+
+    <Dialog id="updateDialog" title="Update Item">
+        <content>
+            <Label text="Item Name" />
+            <Input id="updateItemName" />
+            <Label text="Price" />
+            <Input id="updateItemPrice" />
+            <Label text="Stock" />
+            <Input id="updateItemStock" />
+        </content>
+        <buttons>
+            <Button text="Save" press=".onUpdateSave" />
+            <Button text="Cancel" press=".onUpdateCancel" />
+        </buttons>
+    </Dialog>
      <!-- Add this part for the dialog -->
     <semantic:SemanticPage
         id="page"
@@ -121,7 +138,7 @@
             </Table>
         </semantic:content>
 
-        <semantic:sendEmailAction>
+        <semantic:sendEmailAc   tion>
             <semantic:SendEmailAction id="shareEmail" press=".onShareEmailPress"/>
         </semantic:sendEmailAction>
 

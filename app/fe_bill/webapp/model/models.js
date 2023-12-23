@@ -15,15 +15,32 @@ sap.ui.define(
             createDeviceModel: function () {
                 var oModel = new JSONModel(Device);
                 oModel.setDefaultBindingMode("OneWay");
-                this.billList().then((res) => console("FINISH fetching bills"));
                 return oModel;
             },
             getBills: async function () {
-                const billsList = await fetch(`/bills/Bills`, {
+                const billsList = await fetch(`/bills/Bills?$expand=*`, {
                     method: "GET",
                 });
+                const oModel = new JSONModel(await billsList.json());
+                return oModel;
+            },
 
-                return billsList.json();
+            getItems: async function () {
+                const itemsList = await fetch(`/bills/Items`, {
+                    method: "GET",
+                });
+                const oModel = new JSONModel(await itemsList.json());
+                return oModel;
+            },
+            getHistory: async function () {
+                const historyList = await fetch(
+                    `/bills/ItemHistory?$expand=*`,
+                    {
+                        method: "GET",
+                    }
+                );
+                const oModel = new JSONModel(await historyList.json());
+                return oModel;
             },
         };
     }

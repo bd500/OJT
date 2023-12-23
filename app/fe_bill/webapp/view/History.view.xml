@@ -1,0 +1,20 @@
+<mvc:View
+    xmlns:cards="sap.f.cards"
+    xmlns:table="sap.ui.table"
+    xmlns:f="sap.f"
+    xmlns:tnt="sap.tnt"
+    xmlns:form="sap.ui.layout.form"
+    controllerName="febill.controller.History"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+>
+    <!-- <SplitContainer mode="ShowHideMode" id="split">
+        <masterPages>
+            <mvc:XMLView viewName="febill.view.SideMenu" type="XML"></mvc:XMLView>
+        </masterPages>
+        <detailPages>
+        </detailPages>
+    </SplitContainer> -->
+    <Text text="History" />
+</mvc:View>

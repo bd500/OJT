@@ -44,7 +44,7 @@
     }
   },
   "sap.ui5": {
-    "flexEnabled": true,
+    "flexEnabled": false,
     "dependencies": {
       "minUI5Version": "1.120.3",
       "libs": {
@@ -104,6 +104,16 @@
           "target": [
             "TargetBills"
           ]
+        },
+        {
+          "name": "History",
+          "pattern": "history",
+          "target": ["TargetHistory"]
+        },
+        {
+          "name": "Base",
+          "pattern": "base",
+          "target": ["TargetBase"]
         }
       ],
       "targets": {
@@ -113,6 +123,18 @@
           "clearControlAggregation": false,
           "viewId": "Bills",
           "viewName": "Bills"
+        },
+        "TargetHistory": {
+          "viewName": "History",
+          "viewType": "XML",
+          "viewId": "History",
+          "viewLevel": 2
+        },
+        "TargetBase": {
+          "viewName": "Base",
+          "viewType": "XML",
+          "viewId": "Base",
+          "viewLevel": 2
         }
       }
     },

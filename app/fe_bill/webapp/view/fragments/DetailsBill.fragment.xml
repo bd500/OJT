@@ -1,0 +1,122 @@
+<core:FragmentDefinition
+    xmlns:f="sap.f"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Dialog
+        title="Details"
+        id="detailsDialog"
+        contentHeight="60%"
+    >
+        <VBox
+            id="editDialogContainer"
+            alignContent="Center"
+            alignItems="Baseline"
+        >
+            <HBox id="hbEditCus">
+                <Label text="Customer: " />
+                <Input
+                    placeholder="Customer's Name"
+                    id="editCustomer"
+                    required="true"
+                    editable="false"
+                />
+            </HBox>
+            <HBox id="hbEditEx">
+                <Label text="Exporter: " />
+                <Input
+                    placeholder="Exporter's Name"
+                    id="editExporter"
+                    editable="false"
+                />
+            </HBox>
+            <HBox id="hbEditDate">
+                <Label text="Date:" />
+                <DatePicker
+                    id="editDate"
+                    editable="false"
+                    width="230px"
+                />
+            </HBox>
+            <Label text="Item" />
+
+            <VBox id="vbEditItems">
+                <HBox id="hbEditItem">
+                    <ComboBox
+                        id="cbEditItems"
+                        placeholder="Choose an item"
+                        items="{
+                            path: '/Items',
+                            templateShareable: true
+                        }"
+                        customData="{ 
+                            path: '/Items',
+                            templateShareable: true
+                         }"
+                        required="true"
+                        editable="false"
+                    >
+                        <customData>
+                            <core:CustomData
+                                key="{ID}"
+                                value="{price}"
+                            />
+                        </customData>
+                        <core:Item
+                            key="{ID}"
+                            text="{name}"
+                        />
+                    </ComboBox>
+                    <Input
+                        type="Number"
+                        id="editQuantity"
+                        required="true"
+                        width="50px"
+                        editable="true"
+                    />
+                    <Text text="0" />
+                    <Button
+                        type="Reject"
+                        icon="sap-icon://less"
+                        press=".onRemoveEditItem"
+                        enabled="true"
+                    />
+                </HBox>
+            </VBox>
+            <Button
+                id="btnAddEditItem"
+                type="Transparent"
+                icon="sap-icon://add"
+                text="Item"
+                press=".onAppendEditItem"
+                enabled="true"
+            />
+            <HBox
+                id="hbEditTotal"
+                alignItems="End"
+            >
+                <Label text="Total: " />
+                <Label id="editTotal" />
+            </HBox>
+        </VBox>
+        <beginButton>
+            <Button
+                id="btnSave"
+                type="Accept"
+                text="Save"
+                press=".onSaveDialog"
+                icon="sap-icon://accept"
+                enabled="true"
+            />
+        </beginButton>
+        <endButton>
+            <Button
+                id="btnCloseEdit"
+                type="Reject"
+                text="Close"
+                icon="sap-icon://reset"
+                press=".onCloseDialog($event, 'detailsDialog')"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

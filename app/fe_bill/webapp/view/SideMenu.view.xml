@@ -1,0 +1,44 @@
+<mvc:View
+    xmlns:table="sap.ui.table"
+    xmlns:f="sap.f"
+    xmlns:tnt="sap.tnt"
+    xmlns:form="sap.ui.layout.form"
+    controllerName="febill.controller.SideMenu"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+>
+    <tnt:SideNavigation
+        selectedItem="navItemHome"
+        id="sidemenu"
+    >
+        <tnt:item>
+            <tnt:NavigationList itemSelect="onItemSelect">
+                <tnt:NavigationListItem
+                    icon="sap-icon://home"
+                    text="Home"
+                    id="navItemHome"
+                    key="Home"
+                />
+                <tnt:NavigationListItem
+                    icon="sap-icon://sales-order-item"
+                    text="Bills"
+                    id="navItemBills"
+                    key="RouteBills"
+                />
+                <tnt:NavigationListItem
+                    id="navItemProducts"
+                    icon="sap-icon://product"
+                    text="Products"
+                    key="Products"
+                />
+                <tnt:NavigationListItem
+                    id="navItemHistory"
+                    icon="sap-icon://history"
+                    text="History"
+                    key="History"
+                />
+            </tnt:NavigationList>
+        </tnt:item>
+    </tnt:SideNavigation>
+</mvc:View>

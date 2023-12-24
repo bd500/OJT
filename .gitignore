@@ -1,4 +1,5 @@
 .env
+core
 # CAP OJT-Project
 _out
 *.db

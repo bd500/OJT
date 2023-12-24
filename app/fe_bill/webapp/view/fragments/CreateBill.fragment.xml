@@ -1,0 +1,106 @@
+<core:FragmentDefinition
+    xmlns:p13n="sap.m.p13n"
+    xmlns:f="sap.f"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Dialog
+        title="Create a new bill"
+        id="addBillDialog"
+        contentHeight="60%"
+    >
+        <VBox
+            id="dialogContainer"
+            alignContent="Center"
+            alignItems="Baseline"
+        >
+            <HBox id="hb1">
+                <Label text="Customer" />
+                <Input
+                    placeholder="Customer's Name"
+                    id="txtCustomer"
+                    required="true"
+                />
+            </HBox>
+            <HBox id="hb2">
+                <Label text="Exporter" />
+                <Input
+                    placeholder="Exporter's Name"
+                    id="txtExporter"
+                    required="true"
+                />
+            </HBox>
+            <Label text="Item" />
+
+            <VBox id="vbItems">
+                <HBox id="hbItem">
+                    <ComboBox
+                        id="cbItems"
+                        placeholder="Choose an item"
+                        items="{
+                            path: 'items>/value',
+                            templateShareable: true
+                        }"
+                        customData="{ 
+                            path: 'items>/value',
+                            templateShareable: true
+                         }"
+                        required="true"
+                        selectionChange=".onChooseAddItem"
+                    >
+                        <customData>
+                            <core:CustomData
+                                key="{items>ID}"
+                                value="{items>price}"
+                            />
+                        </customData>
+                        <core:Item
+                            key="{items>ID}"
+                            text="{items>name}"
+                        />
+                    </ComboBox>
+                    <Input
+                        type="Number"
+                        id="txtQuantity"
+                        required="true"
+                        width="50px"
+                    />
+                    <Text
+                        id="txtPrice"
+                        text=""
+                    />
+                    <Button
+                        type="Reject"
+                        icon="sap-icon://less"
+                        press=".onRemoveItem"
+                    />
+                </HBox>
+            </VBox>
+            <Button
+                id="btnAddItem"
+                type="Transparent"
+                icon="sap-icon://add"
+                text="Item"
+                press=".onAppendItem"
+            />
+        </VBox>
+        <beginButton>
+            <Button
+                id="btnAdd"
+                type="Accept"
+                text="Add"
+                press=".onAddNewDialog"
+                icon="sap-icon://accept"
+            />
+        </beginButton>
+        <endButton>
+            <Button
+                id="btnClose"
+                type="Reject"
+                text="Close"
+                icon="sap-icon://reset"
+                press=".onCloseDialog($event, 'addBillDialog')"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

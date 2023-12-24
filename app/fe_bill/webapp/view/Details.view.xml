@@ -1,0 +1,38 @@
+<mvc:View
+    controllerName="febill.controller.Details"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:semantic="sap.f.semantic"
+>
+    <VBox>
+        <!-- Item Info -->
+        <ObjectHeader
+            title="{detailsModel>/value/0/item/name}"
+            number="{detailsModel>/value/0/item/price}"
+            numberUnit="USD"
+        />
+
+        <!-- Item History Table -->
+        <Table items="{detailsModel>/value}">
+            <columns>
+                <Column>
+                    <Text text="Update Date" />
+                </Column>
+                <Column>
+                    <Text text="Quantity" />
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem>
+                    <cells>
+                        <Text
+                            text="{ path: 'detailsModel>date', formatter: '.formatDate' }"
+                        />
+                        <Text text="{detailsModel>quantity}" />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </VBox>
+</mvc:View>

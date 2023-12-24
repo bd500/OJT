@@ -1,0 +1,10 @@
+<mvc:View
+    xmlns:html="https://www.w3.org/1999/xhtml"
+    displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+>
+    <Page id="homePage">
+        <Text text="Welcome home" />
+    </Page>
+</mvc:View>

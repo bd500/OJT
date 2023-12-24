@@ -2,14 +2,14 @@
 
 ### ------------------------------------------------------------------------
 # Get service info
-GET {{server}}/bills/Bills
+GET {{server}}/bills/Bills?%24expand=items
 
 ### ------------------------------------------------------------------------
 # Get service info
 GET {{server}}/bills/Bills(1)
 
 ### ------------------------------------------------------------------------
-# Get service info
+# POST a new Bill
 POST  {{server}}/bills/Bills
 Content-Type: application/json
 
@@ -34,3 +34,32 @@ Content-Type: application/json
 }
 
 ### ------------------------------------------------------------------------
+# Update a Bill
+PATCH   {{server}}/bills/Bills(0)
+Content-Type: application/json
+
+{
+  "ID": 0,
+  "customer": "string",
+  "exporter": "string",
+  "createdAt": "2017-04-13T15:51:04.0000000Z",
+  "total": 3.14,
+  "items": [
+    {
+      "bill_ID": 1,
+      "item_ID": 3,
+      "quantity": 1
+    },
+    {
+    "bill_ID": 1,
+    "item_ID": 2,
+    "quantity": 25
+    }        
+  ]
+}
+
+
+### ------------------------------------------------------------------------
+# Delete a Bill
+DELETE    {{server}}/bills/Bills(0)
+Content-Type: application/json

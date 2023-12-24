@@ -102,8 +102,13 @@
           "name": "RouteBills",
           "pattern": ":?query:",
           "target": [
-            "TargetBills"
+            "TargetBase"
           ]
+        },
+        {
+          "name": "Bills",
+          "pattern": "bills",
+          "target": ["TargetBills"]
         },
         {
           "name": "History",
@@ -114,13 +119,28 @@
           "name": "Base",
           "pattern": "base",
           "target": ["TargetBase"]
+        },
+        {
+          "name": "Items",
+          "pattern": "items",
+          "target": ["TargetItems"]
+        },
+        {
+          "pattern": "Details/{itemId}",
+          "name": "Details",
+          "target": "TargetDetails"
         }
       ],
       "targets": {
-        "TargetBills": {
+        "TargetBase": {
           "viewType": "XML",
           "transition": "slide",
           "clearControlAggregation": false,
+          "viewId": "Home",
+          "viewName": "Home"
+        },
+        "TargetBills":{
+          "viewType": "XML",
           "viewId": "Bills",
           "viewName": "Bills"
         },
@@ -130,10 +150,15 @@
           "viewId": "History",
           "viewLevel": 2
         },
-        "TargetBase": {
-          "viewName": "Base",
+        
+        "TargetItems": {
+          "viewName": "ItemsView",
           "viewType": "XML",
-          "viewId": "Base",
+          "viewId": "ItemsView"
+        },
+        "TargetDetails": {
+          "viewId": "Details",
+          "viewName": "Details",
           "viewLevel": 2
         }
       }

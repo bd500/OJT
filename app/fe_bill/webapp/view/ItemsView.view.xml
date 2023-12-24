@@ -1,0 +1,210 @@
+<mvc:View
+    controllerName="febill.controller.ItemsView"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:semantic="sap.f.semantic"
+>
+    <Dialog
+        id="OpenDialog"
+        title="Create new item"
+    >
+        <buttons>
+            <Button
+                id="confirmCreate"
+                text="Create"
+                press=".onCreate"
+                type="Emphasized"
+            />
+            <Button
+                id="cancelCreate"
+                text="Cancel"
+                press="onCancelDialog"
+                type="Transparent"
+            />
+        </buttons>
+        <Label text="Item Name" />
+        <Input id="idItemName" />
+        <Label text="Price" />
+        <Input id="idPrice" />
+        <Label text="Stock" />
+        <Input id="idStock" />
+    </Dialog>
+
+    <Dialog
+        id="updateDialog"
+        title="Update Item"
+    >
+        <content>
+            <Input
+                id="updateItemID"
+                visible="false"
+            />
+            <Label text="Name" />
+            <Input
+                id="updateItemName"
+                class="updateItemName"
+                enabled="false"
+            />
+            <Label text="Price" />
+            <Input id="updateItemPrice" />
+            <Label text="Stock" />
+            <Input id="updateItemStock" />
+        </content>
+        <buttons>
+            <Button
+                text="Save"
+                press=".onUpdateSave"
+            />
+            <Button
+                text="Cancel"
+                press=".onUpdateCancel"
+            />
+        </buttons>
+    </Dialog>
+
+    <semantic:SemanticPage
+        id="page"
+        headerPinnable="false"
+        toggleHeaderOnTitleClick="false"
+    >
+        <semantic:titleHeading>
+            <Title
+                text="{i18n>Items}"
+                level="H2"
+            />
+        </semantic:titleHeading>
+
+        <semantic:content>
+            <Table
+                id="table"
+                width="auto"
+                items="{
+                    
+                    path: '/Items',
+                    sorter: {
+                        path: 'ID',
+                        descending: false
+                    }
+                }"
+                noDataText="{ItemsView>/tableNoDataText}"
+                busyIndicatorDelay="{ItemsView>/tableBusyDelay}"
+                growing="true"
+                growingScrollToLoad="true"
+                updateFinished=".onUpdateFinished"
+            >
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Title
+                            id="tableHeader"
+                            text="{ItemsView>/ItemsTableTitle}"
+                            level="H3"
+                        />
+                        <ToolbarSpacer />
+                        <Button
+                            icon="sap-icon://add-coursebook"
+                            press="onOpenAddDialog"
+                        />
+
+                        <SearchField
+                            id="searchField"
+                            tooltip="{i18n>ItemsSearchTooltip}"
+                            search=".onSearch"
+                        >
+                            <layoutData>
+                                <OverflowToolbarLayoutData
+                                    maxWidth="200px"
+                                    priority="NeverOverflow"
+                                />
+                            </layoutData>
+                        </SearchField>
+                    </OverflowToolbar>
+                </headerToolbar>
+
+                <columns>
+                    <Column
+                        id="IDColumn"
+                        visible="false"
+                    >
+                        <Text
+                            text="ID"
+                            id="IDColumnTitle"
+                        />
+                    </Column>
+                    <Column id="NameColumn">
+                        <Text
+                            text="Name"
+                            id="NameColumnTitle"
+                        />
+                    </Column>
+                    <Column id="PriceColumn">
+                        <Text
+                            text="Price"
+                            id="PriceColumnTitle"
+                        />
+                    </Column>
+                    <Column
+                        id="StockColumn"
+                        visible="false"
+                    >
+                        <Text
+                            text="Stock"
+                            id="StockColumnTitle"
+                        />
+                    </Column>
+                    <Column id="HistoryColumn">
+                        <Text
+                            text="History"
+                            id="HistoryColumnTitle"
+                        />
+                    </Column>
+                    <Column id="DeleteColumn">
+                        <Text
+                            text="Action"
+                            id="DeleteColumnColumnTitle"
+                        />
+                    </Column>
+                </columns>
+
+                <items>
+                    <ColumnListItem
+                        type="Navigation"
+                        press=".onPress"
+                    >
+                        <cells>
+                            <ObjectIdentifier
+                                text="{ID}"
+                                visible="false"
+                            />
+                            <Text text="{name}" />
+                            <Text text="$ {price}" />
+                            <Text
+                                text="{stock}"
+                                visible="false"
+                            />
+                            <Text text="..." />
+                            <HBox>
+                                <Button
+                                    class="rm-btn"
+                                    icon="sap-icon://delete"
+                                    press=".onDeleteConfirmation"
+                                />
+                                <Button
+                                    icon="sap-icon://edit"
+                                    press=".onUpdateDialog"
+                                />
+                            </HBox>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </semantic:content>
+
+        <semantic:sendEmailAction>
+            <semantic:SendEmailAction
+                id="shareEmail"
+                press=".onShareEmailPress"
+            />
+        </semantic:sendEmailAction>
+    </semantic:SemanticPage>
+</mvc:View>

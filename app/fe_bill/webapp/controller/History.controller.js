@@ -9,8 +9,8 @@ sap.ui.define(
         return Controller.extend("febill.controller.SideMenu", {
             onInit: async function () {
                 var oModel = await models.getHistory();
-                var oView = this.getView();
-                oView.setModel(oModel, "history");
+                this.getView().setModel(oModel, "history");
+                console.log(oModel);
             },
         });
     }

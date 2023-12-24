@@ -10,6 +10,7 @@ sap.ui.define(
             onInit: function () {},
             onItemSelect: function (oEvent) {
                 const path = oEvent.getParameters().item.getKey();
+                console.log(oEvent.getParameters());
                 // const oRouter = this.getOwnerComponent().getRouter();
                 // oRouter.navTo(path);
                 this.byId("pageContainer").to(this.getView().createId(path));

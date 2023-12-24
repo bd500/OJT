@@ -9,12 +9,13 @@
     displayBlock="true"
     xmlns="sap.m"
 >
-    <!-- <SplitContainer mode="ShowHideMode" id="split">
-        <masterPages>
-            <mvc:XMLView viewName="febill.view.SideMenu" type="XML"></mvc:XMLView>
-        </masterPages>
-        <detailPages>
-        </detailPages>
-    </SplitContainer> -->
-    <Text text="History" />
+    <Page id="historyPage">
+        <List
+            id="historyList"
+            items="{history>/value}"
+            headerText="History"
+        >
+            <ObjectListItem title="{history>quantity}" />
+        </List>
+    </Page>
 </mvc:View>

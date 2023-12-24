@@ -50,3 +50,36 @@
 .sapMScrollContScroll{
     height: 100%;
 }
+
+/* quan */
+.rm-btn {
+    margin-right: 5px !important;
+}
+
+.detailsContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.itemInfoRow {
+    width: 100%;
+    flex: 1;
+    /* Take up the first half of the VBox */
+}
+
+.sapUiLargeMarginEnd {
+    margin-right: 16px;
+    /* Add margin between item info elements */
+}
+
+.sapUiResponsiveMargin {
+    margin-top: 16px;
+    /* Add margin between item info and history */
+}
+
+.updateItemName {
+    color: black;
+    font-weight: bold;
+}

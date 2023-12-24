@@ -14,101 +14,77 @@
         id="page"
         title="{i18n>title}"
     >
-        <customHeader>
-            <f:ShellBar
-                title="OJT"
-                homeIcon="https://i.imgur.com/9D6Arik.jpeg"
-                menuButtonPressed=".onMenuToggle"
-                showNotifications="true"
-            >
-                <f:profile>
-                    <Avatar />
-                </f:profile>
-            </f:ShellBar>
-        </customHeader>
         <content>
-            <SplitContainer>
-                <masterPages>
-                    <mvc:XMLView viewName="febill.view.SideMenu" />
-                </masterPages>
-                <detailPages>
-                    <Page>
-                        <!-- <VBox
-                            id="billHeadContainer"
-                            height="190px"
-                        >
-                        
-                        </VBox> -->
-                        <Table
-                            id="tbBills"
-                            items="{ path: 'bills>/value'}"
-                        >
-                            <headerToolbar>
-                                <Toolbar design="Transparent">
-                                    <!-- <ToolbarSpacer  /> -->
-                                    <SearchField
-                                        id="search"
-                                        search=".onBillSearch"
-                                    />
-                                    <Button
-                                        type="Emphasized"
-                                        press=".onAddNewBill"
-                                        text="ADD"
-                                        icon="sap-icon://add"
-                                    />
-                                    <OverflowToolbarButton
-                                        icon="sap-icon://sort"
-                                        text="Sort"
-                                    />
-                                    <OverflowToolbarButton
-                                        icon="sap-icon://filter"
-                                        text="Filter"
-                                    />
-                                    <OverflowToolbarButton
-                                        icon="sap-icon://group"
-                                        text="Group"
-                                    />
-                                </Toolbar>
-                            </headerToolbar>
-                            <columns>
-                                <Column
-                                    id="colID"
-                                    width="36px"
-                                >
-                                    <Label
-                                        id="lbId"
-                                        text="ID"
-                                    />
-                                </Column>
-                                <Column width="auto">
-                                    <Text text="Customer" />
-                                </Column>
-                                <Column width="auto">
-                                    <Text text="Exporter" />
-                                </Column>
-                                <Column width="auto">
-                                    <Text text="Created At" />
-                                </Column>
-                                <Column width="auto">
-                                    <Text text="Total" />
-                                </Column>
-                                <Column width="65px">
-                                    <Text text="Action" />
-                                </Column>
-                            </columns>
-                            <items>
-                                <ColumnListItem
-                                    press=".onBillDetails"
-                                    id="cliItem"
-                                    type="Active"
-                                >
-                                    <cells>
-                                        <ObjectIdentifier title="{bills>ID}" />
-                                        <Text text="{bills>customer}" />
-                                        <Text text="{bills>exporter}" />
-                                        <Text text="{bills>createdAt}" />
-                                        <Text
-                                            text="{parts: [
+            <Table
+                id="tbBills"
+                items="{ path: 'bills>/value'}"
+            >
+                <headerToolbar>
+                    <Toolbar design="Transparent">
+                        <!-- <ToolbarSpacer  /> -->
+                        <SearchField
+                            id="search"
+                            search=".onBillSearch"
+                        />
+                        <Button
+                            type="Emphasized"
+                            press=".onAddNewBill"
+                            text="ADD"
+                            icon="sap-icon://add"
+                        />
+                        <OverflowToolbarButton
+                            icon="sap-icon://sort"
+                            text="Sort"
+                        />
+                        <OverflowToolbarButton
+                            icon="sap-icon://filter"
+                            text="Filter"
+                        />
+                        <OverflowToolbarButton
+                            icon="sap-icon://group"
+                            text="Group"
+                        />
+                    </Toolbar>
+                </headerToolbar>
+                <columns>
+                    <Column
+                        id="colID"
+                        width="36px"
+                    >
+                        <Label
+                            id="lbId"
+                            text="ID"
+                        />
+                    </Column>
+                    <Column width="auto">
+                        <Text text="Customer" />
+                    </Column>
+                    <Column width="auto">
+                        <Text text="Exporter" />
+                    </Column>
+                    <Column width="auto">
+                        <Text text="Created At" />
+                    </Column>
+                    <Column width="auto">
+                        <Text text="Total" />
+                    </Column>
+                    <Column width="65px">
+                        <Text text="Action" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem
+                        press=".onBillDetails"
+                        id="cliItem"
+                        type="Active"
+                    >
+                        <cells>
+                            <ObjectIdentifier title="{bills>ID}" />
+                            <Text text="{bills>customer}" />
+                            <Text text="{bills>exporter}" />
+                            <Text text="{bills>createdAt}" />
+                            <Text
+                                text="{parts: [
                                             {path: 'bills>total'}
                                             
                                         ], 
@@ -117,54 +93,51 @@
                                                 showMeasure: true,
                                                 oLocate: 'en_UK'
                                             }}"
-                                        />
-                                        <Button
-                                            icon="sap-icon://delete"
-                                            press=".onCancelOrder"
-                                            type="Negative"
-                                        />
-                                    </cells>
-                                </ColumnListItem>
-                            </items>
-                        </Table>
-                        <OverflowToolbar>
-                            <ToolbarSpacer />
-                            <Button
-                                id="btnFirstPage"
-                                icon="sap-icon://close-command-field"
-                                press=".onFirstPress"
-                                tooltip="First"
-                                type="Transparent"
                             />
                             <Button
-                                id="btnPrevPage"
-                                icon="sap-icon://navigation-left-arrow"
-                                press=".onPrevPress"
-                                tooltip="Previous"
-                                type="Transparent"
+                                icon="sap-icon://delete"
+                                press=".onCancelOrder"
+                                type="Negative"
                             />
-                            <Text
-                                id="PageTextId"
-                                text="Page 1 of 1"
-                            />
-                            <Button
-                                id="btnNextPage"
-                                icon="sap-icon://navigation-right-arrow"
-                                press=".onNextPress"
-                                tooltip="Next"
-                                type="Transparent"
-                            />
-                            <Button
-                                id="btnLastPage"
-                                icon="sap-icon://open-command-field"
-                                press=".onLastPress"
-                                tooltip="Last"
-                                type="Transparent"
-                            />
-                        </OverflowToolbar>
-                    </Page>
-                </detailPages>
-            </SplitContainer>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+            <OverflowToolbar>
+                <ToolbarSpacer />
+                <Button
+                    id="btnFirstPage"
+                    icon="sap-icon://close-command-field"
+                    press=".onFirstPress"
+                    tooltip="First"
+                    type="Transparent"
+                />
+                <Button
+                    id="btnPrevPage"
+                    icon="sap-icon://navigation-left-arrow"
+                    press=".onPrevPress"
+                    tooltip="Previous"
+                    type="Transparent"
+                />
+                <Text
+                    id="PageTextId"
+                    text="Page 1 of 1"
+                />
+                <Button
+                    id="btnNextPage"
+                    icon="sap-icon://navigation-right-arrow"
+                    press=".onNextPress"
+                    tooltip="Next"
+                    type="Transparent"
+                />
+                <Button
+                    id="btnLastPage"
+                    icon="sap-icon://open-command-field"
+                    press=".onLastPress"
+                    tooltip="Last"
+                    type="Transparent"
+                />
+            </OverflowToolbar>
         </content>
     </Page>
 </mvc:View>

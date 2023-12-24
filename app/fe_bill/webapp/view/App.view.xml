@@ -1,7 +1,63 @@
-<mvc:View controllerName="febill.controller.App"
+<mvc:View
+    xmlns:f="sap.f"
+    xmlns:tnt="sap.tnt"
+    controllerName="febill.controller.App"
     xmlns:html="http://www.w3.org/1999/xhtml"
-    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
-    xmlns="sap.m">
-    <App id="app">
-    </App>
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+>
+    <tnt:ToolPage id="toolPage">
+        <tnt:header>
+            <f:ShellBar
+                id="header"
+                title="OJT"
+                homeIcon="https://i.imgur.com/9D6Arik.jpeg"
+                menuButtonPressed=".onMenuToggle"
+                showNotifications="true"
+            >
+                <f:profile>
+                    <Avatar />
+                </f:profile>
+            </f:ShellBar>
+        </tnt:header>
+        <tnt:sideContent>
+            <tnt:SideNavigation id="sideNav">
+                <tnt:item>
+                    <tnt:NavigationList
+                        itemSelect=".onItemSelect"
+                        selectedKey="RouteBills"
+                    >
+                        <tnt:NavigationListItem
+                            icon="sap-icon://home"
+                            text="Home"
+                            id="navItemHome"
+                            key="RouteBills"
+                        />
+                        <tnt:NavigationListItem
+                            icon="sap-icon://sales-order-item"
+                            text="Bills"
+                            id="navItemBills"
+                            key="Bills"
+                        />
+                        <tnt:NavigationListItem
+                            id="navItemProducts"
+                            icon="sap-icon://product"
+                            text="Products"
+                            key="Items"
+                        />
+                        <tnt:NavigationListItem
+                            id="navItemHistory"
+                            icon="sap-icon://history"
+                            text="History"
+                            key="History"
+                        />
+                    </tnt:NavigationList>
+                </tnt:item>
+            </tnt:SideNavigation>
+        </tnt:sideContent>
+        <tnt:mainContents>
+            <App id="app" />
+        </tnt:mainContents>
+    </tnt:ToolPage>
 </mvc:View>

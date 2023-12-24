@@ -40,13 +40,13 @@
                             id="navItemProducts"
                             icon="sap-icon://product"
                             text="Products"
-                            key="products"
+                            key="items"
                         />
                         <tnt:NavigationListItem
                             id="navItemHistory"
                             icon="sap-icon://history"
                             text="History"
-                            key="his"
+                            key="History"
                         />
                     </tnt:NavigationList>
                 </tnt:item>
@@ -82,14 +82,22 @@
                         id="his"
                         height="100%"
                     >
-                        <mvc:XMLView viewName="febill.view.History" />
+                        <mvc:XMLView
+                            type="XML"
+                            viewName="febill.view.History"
+                        />
                     </ScrollContainer>
 
                     <ScrollContainer
-                        id="products"
+                        id="items"
                         height="100%"
+                        vertical="true"
+                        horizontal="false"
                     >
-                        <!-- <mvc:XMLView viewName="febill.view.Products"></mvc:XMLView> -->
+                        <mvc:XMLView
+                            type="XML"
+                            viewName="febill.view.ItemsView"
+                        />
                     </ScrollContainer>
                 </pages>
             </NavContainer>

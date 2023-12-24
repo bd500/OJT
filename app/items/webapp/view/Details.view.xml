@@ -4,21 +4,33 @@
     xmlns="sap.m"
     xmlns:semantic="sap.f.semantic">
 
-    <VBox class="detailsContainer sapUiContentPadding">
-        <!-- First Vertical Row for Item Info (Table-like) -->
-        <HBox class="itemInfoRow">
-            <items>
-                <Text text="{detailsModel>/date}" class="sapUiLargeMarginEnd"/>
-                <Text text="{detailsModel>/quantity}" class="sapUiLargeMarginEnd"/>
-                <Text text="{detailsModel>/stock}" class="sapUiLargeMarginEnd"/>
-            </items>
-        </HBox>
+    <VBox>
+    <!-- Item Info -->
+    <ObjectHeader
+      title="{detailsModel>/value/0/item/name}"
+      number="{detailsModel>/value/0/item/price}"
+      numberUnit="USD"
+    />
 
-        <!-- Second Half for History (List-like) -->
-        <List items="{detailsModel>/history}" class="sapUiResponsiveMargin">
-            <items>
-                <StandardListItem title="{detailsModel>date}" description="{detailsModel>quantity}" />
-            </items>
-        </List>
-    </VBox>
+            
+    <!-- Item History Table -->
+    <Table items="{detailsModel>/value}">
+      <columns>
+        <Column>
+          <Text text="Update Date" />
+        </Column>
+        <Column>
+          <Text text="Quantity" />
+        </Column>
+      </columns>
+      <items>
+        <ColumnListItem>
+          <cells>
+            <Text text="{ path: 'detailsModel>date', formatter: '.formatDate' }" />
+            <Text text="{detailsModel>quantity}" />
+          </cells>
+        </ColumnListItem>
+      </items>
+    </Table>
+  </VBox>
 </mvc:View>

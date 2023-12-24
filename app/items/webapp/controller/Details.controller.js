@@ -22,13 +22,13 @@ sap.ui.define([
             try {
                 const response = await fetch(`/bills/Items(${itemId})/history?$expand=*`);
                 const data = await response.json();
-                console.log('resdata: ' + data);
 
                 this.getView().getModel("detailsModel").setData(data);
                 console.log(this.getView().getModel("detailsModel"));
             } catch (error) {
                 console.error('Fetch error:', error);
             }
-        }
+        },
+
     });
 });

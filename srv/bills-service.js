@@ -106,14 +106,36 @@ module.exports = cds.service.impl(async function () {
     });
     // ----------------------------------------------------
     // update item
+    this.before(["PATCH", "PUT"], "Items", async (req) => {
+        const itemStock = req.data.stock;
+        const itemPrice = req.data.price;
+
+
+        if (itemStock <= 0) {
+            req.reject(400, `Stock cannot be equal or smaller than 0`);
+        }
+        if (itemPrice <= 0) {
+            req.reject(400, `Price cannot be equal or smaller than 0`);
+        }
+    });
+
     this.after(["PATCH", "PUT"], "Items", async (res) => {
         const date = new Date().toISOString();
-        await UPDATE(ItemHistory)
-            .set({
-                quantity: { "+=": res.stock },
-                date: date,
-            })
-            .where({ item_ID: res.ID });
+
+        const latestItemHistory = await SELECT.from(ItemHistory)
+            .where({ item_ID: res.ID })
+            .orderBy({ date: "desc" })
+            .limit(1);
+
+        console.log('last quantity: ' + latestItemHistory[0].quantity);
+        console.log('stock: ' + res.stock);
+        const currentQuantity = latestItemHistory[0].quantity + res.stock;
+
+        await INSERT.into(ItemHistory).entries({
+            item_ID: res.ID,
+            date: date,
+            quantity: currentQuantity,
+        });
         return res;
     });
 

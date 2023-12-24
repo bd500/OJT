@@ -97,7 +97,7 @@
                     <Column id="PriceColumn">
                         <Text text="Price" id="PriceColumnTitle"/>
                     </Column>
-                    <Column id="StockColumn">
+                    <Column id="StockColumn" visible="false">
                         <Text text="Stock" id="StockColumnTitle"/>
                     </Column>
                     <Column id="HistoryColumn">
@@ -120,7 +120,7 @@
                             <Text
                                 text="$ {price}" />
                             <Text
-                                text="{stock}" />
+                                text="{stock}"  visible="false"/>
                             <Text
                                 text="..." />
                             <HBox>

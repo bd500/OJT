@@ -8,8 +8,8 @@
         <!-- First Vertical Row for Item Info (Table-like) -->
         <HBox class="itemInfoRow">
             <items>
-                <Text text="{detailsModel>/name}" class="sapUiLargeMarginEnd"/>
-                <Text text="{detailsModel>/price}" class="sapUiLargeMarginEnd"/>
+                <Text text="{detailsModel>/date}" class="sapUiLargeMarginEnd"/>
+                <Text text="{detailsModel>/quantity}" class="sapUiLargeMarginEnd"/>
                 <Text text="{detailsModel>/stock}" class="sapUiLargeMarginEnd"/>
             </items>
         </HBox>

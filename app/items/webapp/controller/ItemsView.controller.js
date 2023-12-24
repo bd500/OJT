@@ -171,10 +171,6 @@ sap.ui.define([
                     stock: parseInt(this.byId("updateItemStock").getValue()),
                 };
 
-                console.log("name: " + oItem.name);
-                console.log("price: " + oItem.price);
-                console.log("stock: " + oItem.stock);
-
                 try {
                     const responseHistory = await fetch(`/bills/Items/${oItem.ID}`, {
                         method: 'PATCH',

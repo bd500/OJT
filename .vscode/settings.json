@@ -2,5 +2,6 @@
     "editor.formatOnSave": true,
     "oneDarkPro.italic": false,
     "prettier.tabWidth": 4,
-    "files.autoSave": "off"
+    "files.autoSave": "off",
+    "SAP HANA Project Explorer.bind.confirm automatic undeployment": false
 }

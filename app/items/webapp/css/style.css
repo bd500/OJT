@@ -25,3 +25,8 @@
     margin-top: 16px;
     /* Add margin between item info and history */
 }
+
+.updateItemName {
+    color: black;
+    font-weight: bold;
+}

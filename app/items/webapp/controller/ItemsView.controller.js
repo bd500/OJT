@@ -25,7 +25,6 @@ sap.ui.define([
             },
             // --------------- search
             onSearch: function (oEvent) {
-                // get the search value
             },
 
             // create ----------------------------------------------------
@@ -38,7 +37,6 @@ sap.ui.define([
 
             onCreate: async function () {
                 try {
-                    // Get data from input fields
                     const itemName = this.byId("idItemName").getValue();
                     const itemPrice = this.byId("idPrice").getValue();
                     const itemStock = this.byId("idStock").getValue();
@@ -58,17 +56,13 @@ sap.ui.define([
                     });
 
                     if (response.ok) {
-                        // Item created successfully
                         new sap.m.MessageToast.show("Item added successfully!");
-                        // Refresh the table data
                         this.refreshTable();
                     } else {
-                        // Handle error
                         const errorText = await response.text();
-                        alert("Error adding item: " + errorText);
+                        new sap.m.MessageToast.show("Error adding new item: " + errorText);
                     }
                 } catch (error) {
-                    // Handle any unexpected errors
                     console.error("Error:", error);
                     alert("An unexpected error occurred.");
                 }
@@ -79,17 +73,14 @@ sap.ui.define([
             onDeleteConfirmation: function (oEvent) {
                 var that = this;
 
-                // Get the selected item
                 var oItem = oEvent.getSource().getBindingContext().getObject();
 
-                // Ensure that MessageBox is loaded before using it
                 sap.ui.require(["sap/m/MessageBox"], function (MessageBox) {
                     MessageBox.confirm("Are you sure you want to delete this item?", {
                         title: "Confirm Deletion",
                         actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
                         onClose: function (oAction) {
                             if (oAction === MessageBox.Action.OK) {
-                                // User clicked OK, perform deletion logic
                                 that.onDelete(oItem);
                             }
                         }
@@ -104,22 +95,16 @@ sap.ui.define([
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
-                            // Add any other headers if needed
                         },
                     });
 
                     if (response.ok) {
-                        // Successful deletion
-                        // Update your UI or perform any other actions as needed
                         new sap.m.MessageToast.show('Item deleted successfully');
-                        // Refresh the table data
                         this.refreshTable();
                     } else {
-                        // Handle error
                         console.error(`Error deleting item: ${response.status} - ${response.statusText}`);
                     }
                 } catch (error) {
-                    // Handle fetch error
                     console.error('Fetch error:', error);
                 }
             },
@@ -144,7 +129,6 @@ sap.ui.define([
 
                 if (!this.oUpdateDialog) {
                     try {
-                        // If the dialog doesn't exist, create it asynchronously
                         console.log("Creating dialog...");
                         this.oUpdateDialog = await sap.ui.xmlfragment({
                             fragmentName: "ns.items.view.UpdateDialog",
@@ -154,62 +138,59 @@ sap.ui.define([
                         console.log("Dialog created.");
                     } catch (error) {
                         console.error("Error creating dialog:", error);
-                        return; // Stop execution if an error occurs during dialog creation
+                        return;
                     }
                 }
 
-                var oItem = oEvent.getSource().getBindingContext().getObject();
+                // Directly access the values from the selected item
+                var oSelectedItem = oEvent.getSource().getBindingContext().getObject();
 
-                // Set the existing data to the dialog fields
-                this.oUpdateDialog.getContent().forEach(function (control) {
-                    var controlId = control.getId();
-                    var propertyName = controlId.replace("update", "").toLowerCase();
-                    console.log('item: ' + propertyName);
+                // Set the values to the dialog input fields
+                this.byId("updateItemID").setValue(oSelectedItem.ID);
+                this.byId("updateItemName").setValue(oSelectedItem.name);
+                this.byId("updateItemPrice").setValue(oSelectedItem.price);
+                this.byId("updateItemStock").setValue(oSelectedItem.stock);
 
-                    // Check the type of the control
-                    if (control instanceof sap.m.Input) {
-                        // Assuming it's an Input control, set the value property
-                        control.setValue(oItem[propertyName]);
-                    } else if (control instanceof sap.m.Text) {
-                        // Assuming it's a Text control, set the text property
-                        control.setText(oItem[propertyName]);
-                    }
-                    // Add more conditions if you have other types of controls
-                });
-
-                // Open the dialog
-                console.log("Dialog before opening:", this.oUpdateDialog);
                 this.oUpdateDialog.open();
             },
-
 
 
 
             onUpdateSave: async function () {
                 var oUpdateDialog = this.byId("updateDialog");
 
-                // Close the dialog
                 if (oUpdateDialog) {
                     oUpdateDialog.close();
                 }
 
-                var oItem = this._getUpdatedItem();
+                // Directly access the values from the input fields
+                var oItem = {
+                    ID: this.byId("updateItemID").getValue(),  // Assuming ID doesn't change
+                    name: this.byId("updateItemName").getValue(),
+                    price: parseFloat(this.byId("updateItemPrice").getValue()),
+                    stock: parseInt(this.byId("updateItemStock").getValue()),
+                };
+
+                console.log("name: " + oItem.name);
+                console.log("price: " + oItem.price);
+                console.log("stock: " + oItem.stock);
+
                 try {
                     const responseHistory = await fetch(`/bills/Items/${oItem.ID}`, {
-                        method: 'PATCH',  // You might need to adjust this based on your backend API
+                        method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({
                             name: oItem.name,
-                            price: parseFloat(oItem.price),
-                            stock: parseInt(oItem.stock),  // Assuming stock is the quantity to update
+                            price: oItem.price,
+                            stock: oItem.stock,
                         }),
                     });
 
                     if (responseHistory.ok) {
-                        // Successful update of ItemHistory
-                        console.log('ItemHistory updated successfully');
+                        new sap.m.MessageToast.show("Item has been successfully updated!");
+                        this.refreshTable();
                     } else {
                         const errorText = await responseHistory.text();
                         console.error("Error updating ItemHistory: " + errorText);
@@ -220,24 +201,6 @@ sap.ui.define([
                 }
             },
 
-            _getUpdatedItem: function () {
-                var oUpdateDialog = this.byId("updateDialog");
-
-                var oItem = oUpdateDialog.getContent().reduce(function (acc, control) {
-                    var controlId = control.getId();
-                    var propertyName = controlId.replace("update", "").toLowerCase();
-
-                    if (control instanceof sap.m.Input) {
-                        acc[propertyName] = control.getValue();
-                    } else if (control instanceof sap.m.Text) {
-                        acc[propertyName] = control.getText();
-                    }
-
-                    return acc;
-                }, {});
-                    
-                return oItem;
-            },
 
         });
     });

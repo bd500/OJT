@@ -20,8 +20,9 @@
 
     <Dialog id="updateDialog" title="Update Item">
         <content>
-            <Label text="Item Name" />
-            <Input id="updateItemName" />
+            <Input id="updateItemID" visible="false" />
+            <Label text="Name" />
+            <Input id="updateItemName" class="updateItemName" enabled="false"/>
             <Label text="Price" />
             <Input id="updateItemPrice" />
             <Label text="Stock" />
@@ -32,7 +33,7 @@
             <Button text="Cancel" press=".onUpdateCancel" />
         </buttons>
     </Dialog>
-     <!-- Add this part for the dialog -->
+
     <semantic:SemanticPage
         id="page"
         headerPinnable="false"
@@ -87,7 +88,7 @@
                 </headerToolbar>
 
                 <columns>
-                    <Column id="IDColumn">
+                    <Column id="IDColumn" visible="false">
                         <Text text="ID" id="IDColumnTitle"/>
                     </Column>
                     <Column id="NameColumn">
@@ -113,11 +114,11 @@
                         press=".onPress">
                         <cells>
                              <ObjectIdentifier
-                                text="{ID}" />
+                                text="{ID}" visible="false"/>
                             <Text
                                 text="{name}" />
                             <Text
-                                text="{price}" />
+                                text="$ {price}" />
                             <Text
                                 text="{stock}" />
                             <Text
@@ -138,7 +139,7 @@
             </Table>
         </semantic:content>
 
-        <semantic:sendEmailAc   tion>
+        <semantic:sendEmailAction>
             <semantic:SendEmailAction id="shareEmail" press=".onShareEmailPress"/>
         </semantic:sendEmailAction>
 

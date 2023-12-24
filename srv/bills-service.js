@@ -70,6 +70,26 @@ module.exports = cds.service.impl(async function () {
         return searchResults;
     });
     // --------------------------------------------------
+    this.before(["POST"], "Items", async (req) => {
+        const itemName = req.data.name;
+        const itemStock = req.data.stock;
+        const itemPrice = req.data.price;
+
+        const existingItem = await cds.transaction(req).run(
+            SELECT.from(Items).where({ name: itemName })
+        );
+
+        if (existingItem.length > 0) {
+            req.reject(400, `An item with the name ${itemName} already exists.`);
+        }
+
+        if (itemStock <= 0) {
+            req.reject(400, `Stock cannot be equal or smaller than 0`);
+        }
+        if (itemPrice <= 0) {
+            req.reject(400, `Price cannot be equal or smaller than 0`);
+        }
+    });
     // add item
     this.after(["POST"], "Items", async (res) => {
         const date = new Date().toISOString();
@@ -78,7 +98,7 @@ module.exports = cds.service.impl(async function () {
         // Perform deep insert
         // await INSERT.into(Items).entries(res);
         await INSERT.into(ItemHistory).entries({
-            item_ID: res.ID,  // Assuming 'cuid' is the primary key of Items
+            item_ID: res.ID,
             date: date,
             quantity: res.stock
         });

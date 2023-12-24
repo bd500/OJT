@@ -13,6 +13,15 @@
             alignContent="Center"
             alignItems="Baseline"
         >
+            <HBox id="hbEditId">
+                <Label text="ID: " />
+                <Input
+                    placeholder="ID"
+                    id="editId"
+                    required="true"
+                    editable="false"
+                />
+            </HBox>
             <HBox id="hbEditCus">
                 <Label text="Customer: " />
                 <Input
@@ -40,49 +49,7 @@
             </HBox>
             <Label text="Item" />
 
-            <VBox id="vbEditItems">
-                <HBox id="hbEditItem">
-                    <ComboBox
-                        id="cbEditItems"
-                        placeholder="Choose an item"
-                        items="{
-                            path: '/Items',
-                            templateShareable: true
-                        }"
-                        customData="{ 
-                            path: '/Items',
-                            templateShareable: true
-                         }"
-                        required="true"
-                        editable="false"
-                    >
-                        <customData>
-                            <core:CustomData
-                                key="{ID}"
-                                value="{price}"
-                            />
-                        </customData>
-                        <core:Item
-                            key="{ID}"
-                            text="{name}"
-                        />
-                    </ComboBox>
-                    <Input
-                        type="Number"
-                        id="editQuantity"
-                        required="true"
-                        width="50px"
-                        editable="true"
-                    />
-                    <Text text="0" />
-                    <Button
-                        type="Reject"
-                        icon="sap-icon://less"
-                        press=".onRemoveEditItem"
-                        enabled="true"
-                    />
-                </HBox>
-            </VBox>
+            <VBox id="vbEditItems" />
             <Button
                 id="btnAddEditItem"
                 type="Transparent"
@@ -101,10 +68,10 @@
         </VBox>
         <beginButton>
             <Button
-                id="btnSave"
+                id="btnUpdate"
                 type="Accept"
-                text="Save"
-                press=".onSaveDialog"
+                text="Update order to Paid"
+                press=".onUpdateDialog"
                 icon="sap-icon://accept"
                 enabled="true"
             />

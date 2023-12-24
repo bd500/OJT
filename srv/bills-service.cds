@@ -9,4 +9,5 @@ service BillsManagement {
     entity BillItems   as projection on mydb.BillItems;
     action updateOrderStatus(id : String, status : String) returns Integer;
     action cancelOrder(id : String)                        returns Integer;
+
 }

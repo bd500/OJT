@@ -1,9 +1,10 @@
 const cds = require("@sap/cds");
 
 const { Bills, Items, ItemHistory } = cds.entities;
+// const { OrderStatus } = require("#cds-models/mydb");
 
 module.exports = cds.service.impl(async function () {
-    this.before(["POST", "PUT"], "Bills", async (req) => {
+    this.before("POST", "Bills", async (req) => {
         const itemsId = req.data.items.map((e) => e.item_ID);
         if (validateQuantity(itemsId))
             req.reject(400, "Quantity cannot be negative", "quantity");
@@ -32,23 +33,22 @@ module.exports = cds.service.impl(async function () {
         }
         return myItemsMap;
     });
-    this.after(["POST", "PUT"], "Bills", async (res, req) => {
-        const date = new Date().toISOString();
-
+    this.after("POST", "Bills", async (res, req) => {
         const historyList = res.items.map((i) => {
-            return { item_ID: i.item_ID, quantity: i.quantity, note: "SELL" };
+            return {
+                item_ID: i.item_ID,
+                quantity: i.quantity * -1,
+                note: "SELL",
+            };
         });
         await INSERT(historyList).into(ItemHistory);
         for (let i of res.items) {
             let quantity = i.quantity;
 
-            // if(req.method !== "POST"){
-            //     quantity =
-            // }
             await UPDATE(Items)
                 .set({
                     stock: { "-=": quantity },
-                    lastUpdate: date,
+                    // lastUpdate: date,
                 })
                 .where({ ID: i.item_ID });
         }
@@ -57,4 +57,34 @@ module.exports = cds.service.impl(async function () {
     const validateQuantity = (items) => {
         for (let i of items) if (i.quantity < 0) return false;
     };
+
+    this.on("cancelOrder", async (req) => {
+        // console.log(OrderStatus.PAID);\
+        //Update bill status
+        await UPDATE(Bills)
+            .set({ status: "CANCEL" })
+            .where({ ID: req.data.id });
+        const items = await SELECT(Bills)
+            .columns((c) => {
+                c.items.item_ID, c.items.quantity, c.ID;
+            })
+            .where({ ID: req.data.id });
+        for (let i of items) {
+            //Update current stock for item
+            await UPDATE(Items)
+                .set({ stock: { "+=": i.quantity } })
+                .where({ ID: i.item_ID });
+            //Create a history about the cancelation
+            await INSERT({
+                item_ID: i.item_ID,
+                quantity: i.quantity,
+                note: "CANCEL A BILL",
+            });
+        }
+        console.log(items);
+    });
+
+    this.on("updateOrderStatus", async (req) => {
+        await UPDATE(Bills).set({ status: "PAID" }).where({ ID: req.data.id });
+    });
 });

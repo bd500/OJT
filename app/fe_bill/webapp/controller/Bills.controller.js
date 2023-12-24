@@ -29,7 +29,6 @@ sap.ui.define(
                 var oItemsModel = await models.getItems();
                 var oView = this.getView();
                 oView.setModel(oBillsModel, "bills");
-                console.log(oBillsModel.getData());
                 oView.setModel(oItemsModel, "items");
             },
             onAddNewBill: function () {
@@ -63,7 +62,7 @@ sap.ui.define(
                 });
 
                 const data = {
-                    ID: 96,
+                    ID: 15,
                     customer: txtCustomer,
                     exporter: txtExporter,
                     items: buyItems,
@@ -75,10 +74,16 @@ sap.ui.define(
                  * @private
                  * @description: Validate if the the list contains duplicate items
                  */
-                const validateDuplicateItem = (listItems) => {};
+                const validateDuplicateItem = (listItems) => {
+                    const hasDuplicate = listItems.some(
+                        (val, i) => listItems.indexOf(val) !== i
+                    );
+                    if (hasDuplicate)
+                        throw new Error("The list contains duplicate item");
+                };
 
                 try {
-                    validateDuplicateItem(data);
+                    validateDuplicateItem(data.items);
                     console.log(data);
                     const res = await fetch("/bills/Bills", {
                         method: "POST",
@@ -118,19 +123,19 @@ sap.ui.define(
                 // console.log(cbBox.getBinding("items").getModel().getProperty("/value/" + key));
                 const selItem = oModel.getProperty(`/value/${key}`);
                 const hbox = oEvent.getSource().getParent();
-                console.log(hbox.getItems()[2].setText(selItem.price));
+                hbox.getItems()[2].setText(`${selItem.price}`);
             },
             onBillDetails: async function (oEvent) {
                 const sPath = oEvent.getSource().getBindingContextPath("bills");
                 const oModel = oEvent.getSource().getModel("bills");
+                const oItemModel = this.getView().getModel("items");
 
                 const selCustomer = oModel.getProperty(sPath + "/customer");
                 const selExporter = oModel.getProperty(sPath + "/exporter");
                 const selItems = oModel.getProperty(sPath + "/items");
                 const selTotal = oModel.getProperty(sPath + "/total");
                 const selDate = oModel.getProperty(sPath + "/createdAt");
-
-                console.log(selItems);
+                const selId = oModel.getProperty(sPath + "/ID");
 
                 if (!this.oDetailsDialog) {
                     this.oDetailsDialog = this.loadFragment({
@@ -140,45 +145,79 @@ sap.ui.define(
 
                 const dialog = await this.oDetailsDialog;
                 dialog.open();
+                this.byId("editId").setValue(selId);
                 this.byId("editCustomer").setValue(selCustomer);
                 this.byId("editExporter").setValue(selExporter);
                 this.byId("editDate").setValue(selDate);
-                this.byId("editTotal").setText(selTotal);
+                this.byId("editTotal").setText(`$${selTotal}`);
 
                 const vbItems = this.byId("vbEditItems");
-                const hbItems = vbItems.getItems()[0];
                 for (let i of selItems) {
-                    const cbItem = hbItems.getItems()[0];
-                    const txtQuantity = hbItems.getItems()[1];
-                    const txtPrice = hbItems.getItems()[2];
+                    const container = new sap.m.HBox({ width: "100%" });
+                    const oData = oItemModel.getProperty(`/value/${i.item_ID}`);
+                    const newItem = new sap.m.Input({
+                        value: oData.name,
+                        editable: false,
+                        width: "auto",
+                    });
 
-                    const test = new sap.m.HBox({ width: "100%" });
-                    const newItem = new sap.m.ComboBox({});
                     const newQuanitty = new sap.m.Input({
-                        value: txtQuantity.getValue(),
+                        value: i.quantity,
+                        editable: false,
                     });
                     const newPrice = new sap.m.Text({
-                        text: txtPrice.getText(),
-                    });
-                    const newButton = new sap.m.Button({
-                        type: "Reject",
-                        icon: "sap-icon://less",
-                        press: ".onRemoveEditItem",
+                        text: `$${oData.price}`,
                     });
 
-                    cbItem.setSelectedKey(i.item_ID);
-                    txtQuantity.setValue(i.quantity);
-                    txtPrice.setText(120000);
-                    test.addItem(newQuanitty);
-                    test.addItem(newPrice);
-                    console.log(txtQuantity);
-                    vbItems.addItem(test);
+                    container.addItem(newItem);
+                    container.addItem(newQuanitty);
+                    container.addItem(newPrice);
+                    vbItems.addItem(container);
                 }
                 console.log(vbItems.getItems()[0].getItems());
             },
-            onAppendEditItem: function () {},
-            onRemoveEditItem: function () {},
-            onSaveDialog: async function () {},
+            onCancelOrder: async function (oEvent) {
+                const oModel = oEvent.getSource().getModel("bills");
+                console.log(oModel);
+                try {
+                    const res = await fetch("/bills/cancelOrder", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(data),
+                    });
+                    if (!res.ok) {
+                        throw new Error(await res.text());
+                    }
+                    new sap.m.MessageBox.success(
+                        "Successfully cancel the bill"
+                    );
+                    this.byId("addBillDialog").close();
+                } catch (error) {
+                    new sap.m.MessageBox.error(error.message);
+                }
+            },
+            onUpdateDialog: async function () {
+                const id = this.getView().byId("editId").getValue();
+                console.log(id);
+                try {
+                    const res = await fetch("/bills/updateOrderStatus", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ id: id }),
+                    });
+                    if (!res.ok) {
+                        throw new Error(await res.text());
+                    }
+                    new sap.m.MessageBox.success("This bill is now paid");
+                    this.byId("addBillDialog").close();
+                } catch (error) {
+                    new sap.m.MessageBox.error(error.message);
+                }
+            },
             onBillSearch: function (oEvent) {
                 const oView = this.getView();
                 const searchKey = oView.byId("search").getValue();

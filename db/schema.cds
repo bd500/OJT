@@ -21,14 +21,13 @@ entity ItemHistory : cuid {
 
 entity Items : cuid {
     // key ID         : Integer;
-    name       : String;
-    price      : Double;
-    stock      : Integer;
-    lastUpdate : Timestamp;
-    bill       : Composition of many BillItems
-                     on bill.item = $self;
-    history    : Composition of many ItemHistory
-                     on history.item = $self
+    name    : String;
+    price   : Double;
+    stock   : Integer;
+    bill    : Composition of many BillItems
+                  on bill.item = $self;
+    history : Composition of many ItemHistory
+                  on history.item = $self
 }
 
 entity Bills : cuid {
@@ -38,7 +37,7 @@ entity Bills : cuid {
     createdAt : Timestamp @cds.on.insert: $now;
     items     : Composition of many BillItems
                     on items.bill = $self;
-    // status    : BillStatus ;
+    status    : BillStatus;
     total     : Double;
 }
 

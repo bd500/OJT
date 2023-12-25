@@ -150,6 +150,7 @@ module.exports = cds.service.impl(async function () {
             item_ID: res.ID,
             date: date,
             quantity: res.stock,
+            note: 'Add Item'
         });
         return res;
     });
@@ -158,6 +159,13 @@ module.exports = cds.service.impl(async function () {
     this.before(["PATCH", "PUT"], "Items", async (req) => {
         const itemStock = req.data.stock;
         const itemPrice = req.data.price;
+
+        const items = await SELECT.one.from(Items)
+            .where({
+                ID: req.data.ID,
+            });
+
+        req.data.stock += items.stock;
 
         if (itemStock <= 0) {
             req.reject(400, `Stock cannot be equal or smaller than 0`);
@@ -177,12 +185,13 @@ module.exports = cds.service.impl(async function () {
 
         console.log("last quantity: " + latestItemHistory[0].quantity);
         console.log("stock: " + res.stock);
-        const currentQuantity = latestItemHistory[0].quantity + res.stock;
+        const currentQuantity = res.stock - latestItemHistory[0].quantity;
 
         await INSERT.into(ItemHistory).entries({
             item_ID: res.ID,
             date: date,
             quantity: currentQuantity,
+            note: 'Update Item Info'
         });
         return res;
     });

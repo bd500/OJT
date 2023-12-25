@@ -3,15 +3,27 @@
     xmlns:mvc="sap.ui.core.mvc"
     displayBlock="true"
     xmlns="sap.m"
+    xmlns:core="sap.ui.core"
     xmlns:semantic="sap.f.semantic"
+    height="100%"
+    class="detailsView"
 >
+
     <VBox>
         <!-- Item Info -->
         <ObjectHeader
             title="{detailsModel>/value/0/item/name}"
             number="{detailsModel>/value/0/item/price}"
-            numberUnit="USD"
+            numberUnit="$"
+            responsive="true"
+            backgroundDesign="Transparent"
+            class="headerObject"
         />
+
+        <HBox class="stockInfo">
+            <Label text="Stock " class="stockLabel" />
+            <Text text="{detailsModel>/value/0/item/stock}" textAlign="Center" class="stockText" />
+        </HBox>
 
         <!-- Item History Table -->
         <Table items="{detailsModel>/value}">
@@ -20,16 +32,20 @@
                     <Text text="Update Date" />
                 </Column>
                 <Column>
-                    <Text text="Quantity" />
+                    <Text text="Quantity Changes" />
+                </Column>
+                <Column>
+                    <Text text="Note" />
                 </Column>
             </columns>
             <items>
                 <ColumnListItem>
                     <cells>
                         <Text
-                            text="{ path: 'detailsModel>date', formatter: '.formatDate' }"
+                            text="{detailsModel>dateFormatted}"
                         />
                         <Text text="{detailsModel>quantity}" />
+                        <Text text="{detailsModel>note}" />
                     </cells>
                 </ColumnListItem>
             </items>

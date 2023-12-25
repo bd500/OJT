@@ -3,16 +3,17 @@
     width: 16rem;
     height: 100%;
 }
+
 /* 
 #__xmlview0--sidemenu{
     height: 100%;
 } */
 
-.sapTntSideNavigation{
-    height: 100%;  
+.sapTntSideNavigation {
+    height: 100%;
 }
 
-.sapMDialogScroll{
+.sapMDialogScroll {
     margin-top: 16px;
     /* margin-left: 10px; */
     padding: 10px;
@@ -28,12 +29,12 @@
     overflow-x: overlay;
 }
 
-#container-febill---Bills--detailsDialog{
+#container-febill---Bills--detailsDialog {
     min-width: 550px;
     overflow-x: overlay;
 }
 
-#container-febill---Bills--billHeadContainer{
+#container-febill---Bills--billHeadContainer {
     background-image: url("https://github.com/mazyar1128/tailwindcss-invoice-dashboard/blob/main/images/invoice.png?raw=true");
     background-repeat: no-repeat;
     background-color: rgb(255 228 230 / 0.7);
@@ -41,53 +42,88 @@
 }
 
 @media only screen and (min-width: 900px) {
+
     /* Adjust the min-width value as needed for your desktop breakpoint */
     .sapMDialogSection {
         overflow-x: hidden !important;
     }
 }
 
-.sapMLabelTextWrapper{
+.sapMLabelTextWrapper {
     margin: 4px 10px 8px;
 }
 
-.sapMFlexItemAlignAuto, .sapMFlexBoxBGTransparent, .sapMFlexItem{
+.sapMFlexItemAlignAuto,
+.sapMFlexBoxBGTransparent,
+.sapMFlexItem {
     margin-right: 8px !important;
 }
 
-.sapMScrollContScroll{
-    height: 100%;
+.sapMScrollContScroll {
+    .sapMScrollContScroll {
+        height: 100%;
+    }
+
+    /* quan */
+    .rm-btn {
+        margin-right: 5px !important;
+    }
+
+    .detailsContainer {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .itemInfoRow {
+        width: 100%;
+        flex: 1;
+        /* Take up the first half of the VBox */
+    }
+
+    .sapUiLargeMarginEnd {
+        margin-right: 16px;
+        /* Add margin between item info elements */
+    }
+
+    .sapUiResponsiveMargin {
+        margin-top: 16px;
+        /* Add margin between item info and history */
+    }
+
+    .updateItemName {
+        color: black;
+        font-weight: bold;
+    }
+
+
 }
 
-/* quan */
-.rm-btn {
-    margin-right: 5px !important;
-}
-
-.detailsContainer {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.itemInfoRow {
-    width: 100%;
-    flex: 1;
-    /* Take up the first half of the VBox */
-}
-
-.sapUiLargeMarginEnd {
-    margin-right: 16px;
-    /* Add margin between item info elements */
-}
-
-.sapUiResponsiveMargin {
-    margin-top: 16px;
-    /* Add margin between item info and history */
-}
-
-.updateItemName {
-    color: black;
+.stockInfo {
+    margin-left: 2.3rem;
+    font-size: 24px;
     font-weight: bold;
+}
+
+.stockLabel {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.stockText {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.detailsView {
+    background-color: #f8f8f8;
+    /* Light gray background color */
+}
+
+.headerObject {
+    border-bottom: 1px solid #ddd;
+    /* Add a bottom border to the header */
+    margin-bottom: 10px;
+    /* Add some space between the header and the content */
 }

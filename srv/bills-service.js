@@ -58,12 +58,43 @@ module.exports = cds.service.impl(async function () {
         for (let i of items) if (i.quantity < 0) return false;
     };
 
-    this.on("cancelOrder", async (req) => {
-        // console.log(OrderStatus.PAID);\
-        //Update bill status
+    // this.on("cancelOrder", async (req) => {
+    //     // console.log(OrderStatus.PAID);\
+    //     //Update bill status
+    //     console.log(req.data);
+    //     await UPDATE(Bills)
+    //         .set({ status: "CANCEL" })
+    //         .where({ ID: req.data.id });
+    //     const items = await SELECT(Bills)
+    //         .columns((c) => {
+    //             c.items.item_ID, c.items.quantity, c.ID;
+    //         })
+    //         .where({ ID: req.data.id });
+    //     for (let i of items) {
+    //         //Update current stock for item
+    //         await UPDATE(Items)
+    //             .set({ stock: { "+=": i.quantity } })
+    //             .where({ ID: i.item_ID });
+    //         //Create a history about the cancelation
+    //         await INSERT({
+    //             item_ID: i.item_ID,
+    //             quantity: i.quantity,
+    //             note: "CANCEL A BILL",
+    //         }).into(ItemHistory);
+    //     }
+    //     console.log(items);
+    //     return 1;
+    // });
+
+    this.on("updateOrderStatus", async (req) => {
+        // await UPDATE(Bills).set({ status: "PAID" }).where({ ID: req.data.id });
         await UPDATE(Bills)
-            .set({ status: "CANCEL" })
+            .set({ status: req.data.status })
             .where({ ID: req.data.id });
+
+        if (req.data.status !== "CANCEL") return 1;
+
+        //if the status is CANCEL, take the items back into warehouse
         const items = await SELECT(Bills)
             .columns((c) => {
                 c.items.item_ID, c.items.quantity, c.ID;
@@ -79,13 +110,10 @@ module.exports = cds.service.impl(async function () {
                 item_ID: i.item_ID,
                 quantity: i.quantity,
                 note: "CANCEL A BILL",
-            });
+            }).into(ItemHistory);
         }
         console.log(items);
-    });
-
-    this.on("updateOrderStatus", async (req) => {
-        await UPDATE(Bills).set({ status: "PAID" }).where({ ID: req.data.id });
+        return 1;
     });
 
     // --------------------------------------------------

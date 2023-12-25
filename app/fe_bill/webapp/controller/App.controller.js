@@ -8,8 +8,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller"], function (BaseController) {
 
             const oRouter = this.getOwnerComponent().getRouter();
             oRouter.navTo(path);
-            // this.byId("pageContainer").to(this.getView().createId(path));
-            console.log(path);
+            // console.log(path);
         },
     });
 });

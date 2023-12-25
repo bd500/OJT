@@ -38,11 +38,11 @@
                 />
                 <Label
                     id="lbQuantity"
-                    text="Quantity"
+                    text="Quantity(Unit)"
                 />
                 <Label
                     id="lbPrice"
-                    text="Price per unit"
+                    text="Price per unit($)"
                 />
             </HBox>
 
@@ -78,7 +78,8 @@
                         id="txtQuantity"
                         required="true"
                         width="50px"
-                        value="1"
+                        value="0"
+                        liveChange=".onInputQuantity"
                     />
                     <Text
                         id="txtPrice"
@@ -99,6 +100,15 @@
                 text="Item"
                 press=".onAppendItem"
             />
+        </VBox>
+        <VBox id="vbTotal">
+            <HBox id="hbTotal">
+                <Label text="Total($): " />
+                <Label
+                    id="createTotal"
+                    text="0"
+                />
+            </HBox>
         </VBox>
         <beginButton>
             <Button

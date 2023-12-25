@@ -14,6 +14,7 @@
         id="page"
         title="{i18n>title}"
     >
+        <!-- <ObjectHeader title="Bills" /> -->
         <content>
             <Table
                 id="tbBills"
@@ -49,24 +50,27 @@
                 <columns>
                     <Column
                         id="colID"
-                        width="40px"
+                        width="150px"
                     >
                         <Label
                             id="lbId"
                             text="ID"
                         />
                     </Column>
-                    <Column width="auto">
+                    <Column width="180px">
                         <Text text="Customer" />
                     </Column>
-                    <Column width="auto">
+                    <Column width="180px">
                         <Text text="Exporter" />
                     </Column>
                     <Column width="auto">
                         <Text text="Created At" />
                     </Column>
-                    <Column width="auto">
+                    <Column width="160px">
                         <Text text="Total" />
+                    </Column>
+                    <Column width="75px">
+                        <Text text="Status" />
                     </Column>
                     <Column width="65px">
                         <Text text="Action" />
@@ -94,10 +98,12 @@
                                                 oLocate: 'en_UK'
                                             }}"
                             />
+                            <Text text="{bills>status}" />
                             <Button
                                 icon="sap-icon://delete"
                                 press=".onCancelOrder"
-                                type="Negative"
+                                type="Default"
+                                enabled="{= ${bills>status} === 'CANCEL' ? false : true }"
                             />
                         </cells>
                     </ColumnListItem>

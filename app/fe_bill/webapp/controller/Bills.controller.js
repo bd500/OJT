@@ -23,6 +23,27 @@ sap.ui.define(
     ) {
         "use strict";
 
+        /**
+         *
+         * @param {*} items
+         * @returns {number}
+         * @description calculate the total price when a combo box item or quantity is entered
+         */
+        const calTotal = (items) => {
+            let res = 0;
+            items.map((i) => {
+                const hb = i.getItems();
+                const quantity = parseInt(hb[1].getValue());
+                const price = hb[2].getText();
+                res += price * quantity;
+            });
+            return res;
+        };
+
+        const calItemChanged = (total, item) => {
+            console.log("when item change");
+        };
+
         return Controller.extend("febill.controller.Bills", {
             onInit: async function () {
                 var oBillsModel = await models.getBills();
@@ -53,16 +74,16 @@ sap.ui.define(
 
                 const buyItems = vbItems.map((i) => {
                     const hb = i.getItems();
-                    // const item_ID = hb[0].getSelectedKey() //id is uid
-                    const item_ID = parseInt(hb[0].getSelectedKey()); //id is integer
+                    const item_ID = hb[0].getSelectedKey(); //id is uid
+                    // const item_ID = parseInt(hb[0].getSelectedKey()); //id is integer
                     const quantity = parseInt(hb[1].getValue());
-                    const price = hb[0].data(item_ID + ""); //only accept string as key
+                    // const price = hb[0].data(item_ID + ""); //only accept string as key
+                    const price = hb[2].getText();
                     total += price * quantity;
                     return { item_ID, quantity };
                 });
 
                 const data = {
-                    // ID: "clqkabpfw000008l83zgkaibp",
                     customer: txtCustomer,
                     exporter: txtExporter,
                     items: buyItems,
@@ -84,7 +105,6 @@ sap.ui.define(
 
                 try {
                     validateDuplicateItem(data.items);
-                    console.log(data);
                     const res = await fetch("/bills/Bills", {
                         method: "POST",
                         headers: {
@@ -107,12 +127,31 @@ sap.ui.define(
                 const hbItem = this.byId("hbItem");
                 vbItems.addItem(hbItem.clone());
 
-                console.log(vbItems.getItems());
+                const lbTotal = this.byId("createTotal");
+                let total = parseFloat(lbTotal.getText());
+
+                console.log(total);
+
+                const quantity = hbItem.getItems()[1].getValue();
+                const price = parseFloat(hbItem.getItems()[2].getText());
+                total += quantity * price;
+                lbTotal.setText(total);
+
+                console.log(quantity, price, total);
             },
             onRemoveItem: function (oEvent) {
                 const child = oEvent.getSource();
                 const parent = child.getParent();
                 const vbItems = this.byId("vbItems");
+
+                const lbTotal = this.byId("createTotal");
+                let total = parseFloat(lbTotal.getText());
+
+                const quantity = parent.getItems()[1].getValue();
+                const price = parent.getItems()[2].getText();
+                total -= quantity * price;
+                lbTotal.setText(total);
+
                 vbItems.removeItem(parent);
 
                 // parent.destroy(); //fix bug: cannot add an new item after remove all items
@@ -121,17 +160,27 @@ sap.ui.define(
                 const oModel = oEvent.getSource().getModel("items");
                 const key = oEvent.getParameters().selectedItem.getKey();
                 const oData = oModel.getData().value;
-                const index = oData.findIndex((x) => x.ID === key);
-                console.log(index);
-                // for(let i = 0; i < oMoed)
-                const selItem = oModel.getProperty(`/value/${index}`);
+                const selItem = oData.find((x) => x.ID === key);
+                // const selItem = oModel.getProperty(`/value/${index}`);
                 const hbox = oEvent.getSource().getParent();
                 hbox.getItems()[2].setText(`${selItem.price}`);
+
+                const total = calTotal(hbox.getParent().getItems());
+                this.byId("createTotal").setText(total);
+            },
+            onInputQuantity: function (oEvent) {
+                // const quantity = oEvent.getParameters().value;
+                const vbItems = this.byId("vbItems").getItems();
+                let lbTotal = this.byId("createTotal");
+                let total = calTotal(vbItems);
+
+                lbTotal.setText(total);
             },
             onBillDetails: async function (oEvent) {
                 const sPath = oEvent.getSource().getBindingContextPath("bills");
                 const oModel = oEvent.getSource().getModel("bills");
                 const oItemModel = this.getView().getModel("items");
+                const oItemData = oItemModel.getData().value;
 
                 const selCustomer = oModel.getProperty(sPath + "/customer");
                 const selExporter = oModel.getProperty(sPath + "/exporter");
@@ -139,6 +188,7 @@ sap.ui.define(
                 const selTotal = oModel.getProperty(sPath + "/total");
                 const selDate = oModel.getProperty(sPath + "/createdAt");
                 const selId = oModel.getProperty(sPath + "/ID");
+                const selStatus = oModel.getProperty(sPath + "/status");
 
                 if (!this.oDetailsDialog) {
                     this.oDetailsDialog = this.loadFragment({
@@ -154,10 +204,17 @@ sap.ui.define(
                 this.byId("editDate").setValue(selDate);
                 this.byId("editTotal").setText(`$${selTotal}`);
 
+                const btnUpdate = this.byId("btnUpdate");
+                selStatus === "PAID"
+                    ? btnUpdate.setEnabled(false)
+                    : btnUpdate.setEnabled(true);
+
                 const vbItems = this.byId("vbEditItems");
                 for (let i of selItems) {
                     const container = new sap.m.HBox({ width: "100%" });
-                    const oData = oItemModel.getProperty(`/value/${i.item_ID}`);
+                    // const oData = oItemModel.getProperty(`/value/${i.item_ID}`);
+                    const oData = oItemData.find((e) => e.ID === i.item_ID);
+
                     const newItem = new sap.m.Input({
                         value: oData.name,
                         editable: false,
@@ -177,13 +234,15 @@ sap.ui.define(
                     container.addItem(newPrice);
                     vbItems.addItem(container);
                 }
-                console.log(vbItems.getItems()[0].getItems());
+                // console.log(vbItems.getItems()[0].getItems());
             },
             onCancelOrder: async function (oEvent) {
                 const oModel = oEvent.getSource().getModel("bills");
-                console.log(oModel);
+                const cells = oEvent.getSource().getParent().getCells();
+                const data = { id: cells[0].getTitle(), status: "CANCEL" };
+                console.log(data);
                 try {
-                    const res = await fetch("/bills/cancelOrder", {
+                    const res = await fetch("/bills/updateOrderStatus", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -196,27 +255,26 @@ sap.ui.define(
                     new sap.m.MessageBox.success(
                         "Successfully cancel the bill"
                     );
-                    this.byId("addBillDialog").close();
+                    // this.byId("detailsDialog").close();
                 } catch (error) {
                     new sap.m.MessageBox.error(error.message);
                 }
             },
             onUpdateDialog: async function () {
                 const id = this.getView().byId("editId").getValue();
-                console.log(id);
                 try {
                     const res = await fetch("/bills/updateOrderStatus", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
                         },
-                        body: JSON.stringify({ id: id }),
+                        body: JSON.stringify({ id: id, status: "PAID" }),
                     });
                     if (!res.ok) {
                         throw new Error(await res.text());
                     }
                     new sap.m.MessageBox.success("This bill is now paid");
-                    this.byId("addBillDialog").close();
+                    this.byId("detailsDialog").close();
                 } catch (error) {
                     new sap.m.MessageBox.error(error.message);
                 }

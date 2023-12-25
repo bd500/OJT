@@ -47,6 +47,14 @@
                     width="230px"
                 />
             </HBox>
+            <HBox id="hbStatus">
+                <Label text="Status" />
+                <Input
+                    value="PAID"
+                    editable="false"
+                    id="txtStatus"
+                />
+            </HBox>
             <HBox>
                 <Label text="Item" />
                 <Label text="Quantity" />
@@ -76,7 +84,6 @@
                 text="Update order to Paid"
                 press=".onUpdateDialog"
                 icon="sap-icon://accept"
-                enabled="true"
             />
         </beginButton>
         <endButton>

@@ -30,7 +30,21 @@
                     required="true"
                 />
             </HBox>
-            <Label text="Item" />
+            <HBox>
+                <Label
+                    id="lbItem"
+                    text="Item"
+                    width="auto"
+                />
+                <Label
+                    id="lbQuantity"
+                    text="Quantity"
+                />
+                <Label
+                    id="lbPrice"
+                    text="Price per unit"
+                />
+            </HBox>
 
             <VBox id="vbItems">
                 <HBox id="hbItem">
@@ -64,10 +78,12 @@
                         id="txtQuantity"
                         required="true"
                         width="50px"
+                        value="1"
                     />
                     <Text
                         id="txtPrice"
                         text=""
+                        width="50px"
                     />
                     <Button
                         type="Reject"

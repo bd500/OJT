@@ -47,6 +47,14 @@
     }
 }
 
+.sapMLabelTextWrapper{
+    margin: 4px 10px 8px;
+}
+
+.sapMFlexItemAlignAuto, .sapMFlexBoxBGTransparent, .sapMFlexItem{
+    margin-right: 8px !important;
+}
+
 .sapMScrollContScroll{
     height: 100%;
 }

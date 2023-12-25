@@ -47,17 +47,20 @@
                     width="230px"
                 />
             </HBox>
-            <Label text="Item" />
-
+            <HBox>
+                <Label text="Item" />
+                <Label text="Quantity" />
+                <Label text="Price per unit" />
+            </HBox>
             <VBox id="vbEditItems" />
-            <Button
+            <!-- <Button
                 id="btnAddEditItem"
                 type="Transparent"
                 icon="sap-icon://add"
                 text="Item"
                 press=".onAppendEditItem"
                 enabled="true"
-            />
+            /> -->
             <HBox
                 id="hbEditTotal"
                 alignItems="End"

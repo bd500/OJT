@@ -62,7 +62,7 @@ sap.ui.define(
                 });
 
                 const data = {
-                    ID: 15,
+                    // ID: "clqkabpfw000008l83zgkaibp",
                     customer: txtCustomer,
                     exporter: txtExporter,
                     items: buyItems,
@@ -120,8 +120,11 @@ sap.ui.define(
             onChooseAddItem: function (oEvent) {
                 const oModel = oEvent.getSource().getModel("items");
                 const key = oEvent.getParameters().selectedItem.getKey();
-                // console.log(cbBox.getBinding("items").getModel().getProperty("/value/" + key));
-                const selItem = oModel.getProperty(`/value/${key}`);
+                const oData = oModel.getData().value;
+                const index = oData.findIndex((x) => x.ID === key);
+                console.log(index);
+                // for(let i = 0; i < oMoed)
+                const selItem = oModel.getProperty(`/value/${index}`);
                 const hbox = oEvent.getSource().getParent();
                 hbox.getItems()[2].setText(`${selItem.price}`);
             },

@@ -5,6 +5,8 @@
     xmlns="sap.m"
 >
     <Page id="homePage">
-        <Text text="Welcome home" />
+        <Image
+            src="https://anlocviet.vn/upload/product/thamnhualauchanwelcome120x150cm1732-7466.jpg"
+        />
     </Page>
 </mvc:View>

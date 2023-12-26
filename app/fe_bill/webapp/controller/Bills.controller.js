@@ -7,7 +7,7 @@ sap.ui.define(
         "sap/ui/model/Filter",
         "sap/ui/model/FilterOperator",
         "sap/ui/model/FilterType",
-        "sap/m/Button",
+        "../model/formatter",
     ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
@@ -19,7 +19,8 @@ sap.ui.define(
         Sorter,
         Filter,
         FilterOperator,
-        FilterType
+        FilterType,
+        formatter
     ) {
         "use strict";
 
@@ -40,11 +41,19 @@ sap.ui.define(
             return res;
         };
 
+        /**
+         *
+         * @param {number} total
+         * @param {object} item
+         * @returns {number}
+         * @description cacculate the total price when clicking on the add or remove item button
+         */
         const calItemChanged = (total, item) => {
             console.log("when item change");
         };
 
         return Controller.extend("febill.controller.Bills", {
+            formatter: formatter,
             onInit: async function () {
                 var oBillsModel = await models.getBills();
                 var oItemsModel = await models.getItems();
@@ -63,7 +72,6 @@ sap.ui.define(
                 });
             },
             onCloseDialog: function (oEvent, dialog) {
-                // const dialog = oEvent.getSource().data("dialog");
                 this.byId(dialog).close();
             },
             onAddNewDialog: async function () {
@@ -88,6 +96,7 @@ sap.ui.define(
                     exporter: txtExporter,
                     items: buyItems,
                     total: total,
+                    status: "UNPAID",
                 };
                 /**
                  *
@@ -116,6 +125,8 @@ sap.ui.define(
                         throw new Error(await res.text());
                     }
                     new sap.m.MessageBox.success("Success");
+
+                    // this.getView().getModel("bills").refresh(true)
                     this.byId("addBillDialog").close();
                 } catch (error) {
                     console.log(error.message);
@@ -130,14 +141,10 @@ sap.ui.define(
                 const lbTotal = this.byId("createTotal");
                 let total = parseFloat(lbTotal.getText());
 
-                console.log(total);
-
                 const quantity = hbItem.getItems()[1].getValue();
                 const price = parseFloat(hbItem.getItems()[2].getText());
                 total += quantity * price;
                 lbTotal.setText(total);
-
-                console.log(quantity, price, total);
             },
             onRemoveItem: function (oEvent) {
                 const child = oEvent.getSource();
@@ -153,15 +160,12 @@ sap.ui.define(
                 lbTotal.setText(total);
 
                 vbItems.removeItem(parent);
-
-                // parent.destroy(); //fix bug: cannot add an new item after remove all items
             },
             onChooseAddItem: function (oEvent) {
                 const oModel = oEvent.getSource().getModel("items");
                 const key = oEvent.getParameters().selectedItem.getKey();
                 const oData = oModel.getData().value;
                 const selItem = oData.find((x) => x.ID === key);
-                // const selItem = oModel.getProperty(`/value/${index}`);
                 const hbox = oEvent.getSource().getParent();
                 hbox.getItems()[2].setText(`${selItem.price}`);
 
@@ -169,7 +173,6 @@ sap.ui.define(
                 this.byId("createTotal").setText(total);
             },
             onInputQuantity: function (oEvent) {
-                // const quantity = oEvent.getParameters().value;
                 const vbItems = this.byId("vbItems").getItems();
                 let lbTotal = this.byId("createTotal");
                 let total = calTotal(vbItems);
@@ -212,7 +215,6 @@ sap.ui.define(
                 const vbItems = this.byId("vbEditItems");
                 for (let i of selItems) {
                     const container = new sap.m.HBox({ width: "100%" });
-                    // const oData = oItemModel.getProperty(`/value/${i.item_ID}`);
                     const oData = oItemData.find((e) => e.ID === i.item_ID);
 
                     const newItem = new sap.m.Input({
@@ -234,13 +236,11 @@ sap.ui.define(
                     container.addItem(newPrice);
                     vbItems.addItem(container);
                 }
-                // console.log(vbItems.getItems()[0].getItems());
             },
             onCancelOrder: async function (oEvent) {
                 const oModel = oEvent.getSource().getModel("bills");
                 const cells = oEvent.getSource().getParent().getCells();
                 const data = { id: cells[0].getTitle(), status: "CANCEL" };
-                console.log(data);
                 try {
                     const res = await fetch("/bills/updateOrderStatus", {
                         method: "POST",
@@ -255,7 +255,6 @@ sap.ui.define(
                     new sap.m.MessageBox.success(
                         "Successfully cancel the bill"
                     );
-                    // this.byId("detailsDialog").close();
                 } catch (error) {
                     new sap.m.MessageBox.error(error.message);
                 }

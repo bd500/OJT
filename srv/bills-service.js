@@ -109,7 +109,7 @@ module.exports = cds.service.impl(async function () {
             await INSERT({
                 item_ID: i.item_ID,
                 quantity: i.quantity,
-                note: "CANCEL A BILL",
+                note: "CANCEL",
             }).into(ItemHistory);
         }
         console.log(items);
@@ -150,7 +150,7 @@ module.exports = cds.service.impl(async function () {
             item_ID: res.ID,
             date: date,
             quantity: res.stock,
-            note: 'Add Item'
+            note: "New Item",
         });
         return res;
     });
@@ -160,10 +160,9 @@ module.exports = cds.service.impl(async function () {
         const itemStock = req.data.stock;
         const itemPrice = req.data.price;
 
-        const items = await SELECT.one.from(Items)
-            .where({
-                ID: req.data.ID,
-            });
+        const items = await SELECT.one.from(Items).where({
+            ID: req.data.ID,
+        });
 
         req.data.stock += items.stock;
 
@@ -191,7 +190,7 @@ module.exports = cds.service.impl(async function () {
             item_ID: res.ID,
             date: date,
             quantity: currentQuantity,
-            note: 'Update Item Info'
+            note: "Update Item Info",
         });
         return res;
     });

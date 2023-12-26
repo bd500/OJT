@@ -10,11 +10,9 @@
     xmlns="sap.m"
     height="100%"
 >
-    <Page
-        id="page"
-        title="{i18n>title}"
-    >
-        <!-- <ObjectHeader title="Bills" /> -->
+    <ObjectHeader title="Bills Management" />
+    <Page id="page">
+        <headerContent />
         <content>
             <Table
                 id="tbBills"
@@ -50,26 +48,26 @@
                 <columns>
                     <Column
                         id="colID"
-                        width="150px"
+                        width="120px"
                     >
                         <Label
                             id="lbId"
                             text="ID"
                         />
                     </Column>
-                    <Column width="180px">
+                    <Column width="150px">
                         <Text text="Customer" />
                     </Column>
-                    <Column width="180px">
+                    <Column width="150px">
                         <Text text="Exporter" />
                     </Column>
                     <Column width="auto">
                         <Text text="Created At" />
                     </Column>
-                    <Column width="160px">
+                    <Column width="140px">
                         <Text text="Total" />
                     </Column>
-                    <Column width="75px">
+                    <Column width="80px">
                         <Text text="Status" />
                     </Column>
                     <Column width="65px">
@@ -86,7 +84,10 @@
                             <ObjectIdentifier title="{bills>ID}" />
                             <Text text="{bills>customer}" />
                             <Text text="{bills>exporter}" />
-                            <Text text="{bills>createdAt}" />
+                            <Text
+                                text="{path: 'bills>createdAt', 
+                                    formatter: '.formatter.formatDate'}"
+                            />
                             <Text
                                 text="{parts: [
                                             {path: 'bills>total'}
@@ -98,7 +99,13 @@
                                                 oLocate: 'en_UK'
                                             }}"
                             />
-                            <Text text="{bills>status}" />
+                            <!-- <Text text="{bills>status}" /> -->
+                            <ObjectStatus
+                                inverted="true"
+                                text="{bills>status}"
+                                state="{path: 'bills>status',
+                                        formatter: '.formatter.formatBillStatus'}"
+                            />
                             <Button
                                 icon="sap-icon://delete"
                                 press=".onCancelOrder"

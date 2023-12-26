@@ -1,9 +1,14 @@
 sap.ui.define(
-    ["sap/ui/core/mvc/Controller", "sap/ui/model/json/JSONModel"],
-    function (Controller, JSONModel) {
+    [
+        "sap/ui/core/mvc/Controller",
+        "sap/ui/model/json/JSONModel",
+        "../model/formatter",
+    ],
+    function (Controller, JSONModel, formatter) {
         "use strict";
 
         return Controller.extend("ns.items.controller.Details", {
+            formatter,
             onInit: function () {
                 var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
                 oRouter
@@ -21,17 +26,34 @@ sap.ui.define(
 
             _loadItemDetails: async function (itemId) {
                 try {
-                    const response = await fetch(`/bills/Items(${itemId})/history?$expand=*`);
+                    const response = await fetch(
+                        `/bills/Items(${itemId})/history?$expand=*`
+                    );
                     const data = await response.json();
 
                     if (data && data.value && data.value.length >= 1) {
-                        data.value.sort((a, b) => new Date(b.date) - new Date(a.date));
+                        data.value.sort(
+                            (a, b) => new Date(b.date) - new Date(a.date)
+                        );
 
                         // Format the dates
-                        const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'UTC' };
-                        data.value.forEach(item => {
-                            const formattedDate = new Date(item.date).toLocaleString('en-US', options);
-                            item.dateFormatted = formattedDate.replace(/[,]/g, ''); // Remove the comma
+                        const options = {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second: "2-digit",
+                            timeZone: "UTC",
+                        };
+                        data.value.forEach((item) => {
+                            const formattedDate = new Date(
+                                item.date
+                            ).toLocaleString("en-US", options);
+                            item.dateFormatted = formattedDate.replace(
+                                /[,]/g,
+                                ""
+                            ); // Remove the comma
                         });
                     }
 
@@ -42,10 +64,9 @@ sap.ui.define(
 
                     console.log(this.getView().getModel("detailsModel"));
                 } catch (error) {
-                    console.error('Fetch error:', error);
+                    console.error("Fetch error:", error);
                 }
             },
-
         });
     }
 );

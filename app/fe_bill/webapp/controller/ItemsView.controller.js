@@ -1,19 +1,13 @@
 sap.ui.define(
-    [
-        "sap/ui/core/mvc/Controller",
-        "sap/ui/model/Filter",
-        "sap/ui/model/FilterOperator",
-        "sap/m/Dialog",
-        "sap/m/MessageBox",
-        "sap/m/Button",
-    ],
+    ["sap/ui/core/mvc/Controller", "../model/formatter"],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, Dialog, Button, MessageBox) {
+    function (Controller, formatter) {
         "use strict";
 
         return Controller.extend("ns.items.controller.ItemsView", {
+            formatter: formatter,
             onInit: function () {},
             onPress: function (oEvent) {
                 var oSelectedItem = oEvent

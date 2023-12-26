@@ -43,11 +43,24 @@
                     <ColumnListItem>
                         <cells>
                             <ObjectIdentifier title="{history>item/name}" />
-                            <ObjectIdentifier title="{history>date}" />
-                            <ObjectNumber number="{history>quantity}" />
-                            <Text
+                            <ObjectIdentifier
+                                title="{path: 'history>date',
+                                formatter: '.formatter.formatDate'}"
+                            />
+                            <ObjectNumber
+                                number="{history>quantity}"
+                                state="{path:'history>quantity', 
+                                        formatter: '.formatter.formatItemChange'}"
+                            />
+                            <!-- <Text
                                 textAlign="Center"
                                 text="{history>note}"
+                            /> -->
+                            <ObjectStatus
+                                inverted="true"
+                                text="{history>note}"
+                                state="{path: 'history>note',
+                                        formatter: '.formatter.formatHistoryNote'}"
                             />
                         </cells>
                     </ColumnListItem>

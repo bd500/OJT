@@ -85,7 +85,8 @@
                     sorter: {
                         path: 'ID',
                         descending: false
-                    }
+                    },
+                    parameters: {expand: 'history'}
                 }"
                 noDataText="{ItemsView>/tableNoDataText}"
                 busyIndicatorDelay="{ItemsView>/tableBusyDelay}"
@@ -182,7 +183,8 @@
                                 text="{stock}"
                                 visible="false"
                             />
-                            <Text text="..." />
+                            <Text text="{history/0/date}" />
+
                             <HBox>
                                 <Button
                                     class="rm-btn"

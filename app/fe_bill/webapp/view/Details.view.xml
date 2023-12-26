@@ -71,7 +71,7 @@
             <commons:TimelineItem
                 dateTime="{detailsModel>date}"
                 text="{detailsModel>note}"
-                title="Stock change: {detailsModel>quantity}"
+                title="Quantity change: {detailsModel>quantity}"
                 status="{path: 'detailsModel>quantity',
                         formatter: '.formatter.formatItemChange'}"
             />

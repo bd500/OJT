@@ -127,3 +127,43 @@
     margin-bottom: 10px;
     /* Add some space between the header and the content */
 }
+
+/* Styles for Create Dialog */
+.customDialog .customButtonConfirm,
+.customDialog .customButtonCancel {
+    width: 45%;
+    /* Adjust button width as needed */
+}
+
+.customDialog .customLabel,
+.customDialog .customInput {
+    margin-bottom: 10px;
+    /* Add spacing between labels and inputs */
+    width: calc(100% - 20px);
+    /* Adjust input width */
+    padding: 0 50px;
+}
+
+/* Styles for Update Dialog */
+.customDialog1 .customButtonConfirm,
+.customDialog1 .customButtonCancel {
+    width: 45%;
+    /* Adjust button width as needed */
+}
+
+.customDialog1 .customLabel1,
+.customDialog1 .customInput1 {
+    margin-bottom: 10px;
+    /* Add spacing between labels and inputs */
+    width: calc(100% - 20px);
+    /* Adjust input width */
+    padding: 0 50px;
+}
+
+/* Adjust width of the dialogs */
+.customDialog,
+.customDialog1 {
+    max-width: 300px;
+    /* Adjust the maximum width of the dialogs */
+    width: 30%;
+}

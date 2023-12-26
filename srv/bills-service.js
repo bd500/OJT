@@ -150,7 +150,7 @@ module.exports = cds.service.impl(async function () {
             item_ID: res.ID,
             date: date,
             quantity: res.stock,
-            note: "New Item",
+            note: "NEW",
         });
         return res;
     });

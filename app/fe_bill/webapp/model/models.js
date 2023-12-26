@@ -45,6 +45,13 @@ sap.ui.define(
                 const oModel = new JSONModel(await historyList.json());
                 return oModel;
             },
+            getItems: async function () {
+                const itemsList = await fetch(`/bills/Items?$expand=*`, {
+                    method: "GET",
+                });
+                const oModel = new JSONModel(await itemsList.json());
+                return oModel;
+            },
         };
     }
 );

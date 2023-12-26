@@ -1,18 +1,22 @@
 sap.ui.define(
-    ["sap/ui/core/mvc/Controller", "../model/formatter"],
+    ["sap/ui/core/mvc/Controller", "../model/formatter", "../model/models"],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, formatter) {
+    function (Controller, formatter, models) {
         "use strict";
 
         return Controller.extend("ns.items.controller.ItemsView", {
             formatter: formatter,
-            onInit: function () {},
+            onInit: async function () {
+                const oItemsModel = await models.getItems();
+                console.log(oItemsModel);
+                this.getView().setModel(oItemsModel, "items");
+            },
             onPress: function (oEvent) {
                 var oSelectedItem = oEvent
                     .getSource()
-                    .getBindingContext()
+                    .getBindingContext("items")
                     .getObject();
                 var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
                 oRouter.navTo("Details", {

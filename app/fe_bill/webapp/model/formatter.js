@@ -1,20 +1,36 @@
 sap.ui.define(["sap/ui/core/format/DateFormat"], (DateFormat) => {
     "use strict";
 
+    const toTime = (date) => {
+        const oDate = new Date(date);
+        const oDateFormat = DateFormat.getDateInstance({
+            pattern: "MMM dd, yyyy, hh:mm:ss a",
+        });
+        return oDateFormat.format(oDate);
+    };
     return {
         formatDate(date) {
-            const oDateFormat = DateFormat.getDateInstance({
-                pattern: "MMM dd, yyyy, hh:mm:ss a",
-            });
-            const oDate = new Date(date);
-            return oDateFormat.format(oDate);
+            return toTime(date);
         },
         formatLastDate(history) {
-            // return history[history.length - 1];
-            console.log(history);
+            if (history.length === 0) return "No information";
+
+            // const oDateFormat = DateFormat.getDateInstance({
+            //     pattern: "MMM dd, yyyy, hh:mm:ss a",
+            // });
+            // const oDate = new Date(history[history.length - 1].date);
+            // return oDateFormat.format(oDate);
+            return toTime(history[history.length - 1].date);
         },
         formatItemChange(sItem) {
             return sItem > 0 ? "Success" : "Warning";
+        },
+        formatQuantity(quantity) {
+            return quantity === 0
+                ? "Error"
+                : quantity <= 10
+                ? "Warning"
+                : "Information";
         },
         formatBillStatus(sStatus) {
             return sStatus === "PAID"
@@ -35,6 +51,8 @@ sap.ui.define(["sap/ui/core/format/DateFormat"], (DateFormat) => {
                 case "Import":
                     status = "Indication07";
                     break;
+                case "UPDATE":
+                    status = "Indication08";
                 default:
                     status = "Success";
                     break;

@@ -210,6 +210,8 @@ sap.ui.define(
                 const btnUpdate = this.byId("btnUpdate");
                 selStatus === "PAID"
                     ? btnUpdate.setEnabled(false)
+                    : selStatus === "CANCEL"
+                    ? btnUpdate.setEnabled(false)
                     : btnUpdate.setEnabled(true);
 
                 const vbItems = this.byId("vbEditItems");

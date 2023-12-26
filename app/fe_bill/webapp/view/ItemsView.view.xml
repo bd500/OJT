@@ -8,6 +8,7 @@
     <Dialog
         id="OpenDialog"
         title="Create new item"
+        class="customDialog"
     >
         <buttons>
             <Button
@@ -15,42 +16,76 @@
                 text="Create"
                 press=".onCreate"
                 type="Emphasized"
+                class="customButtonConfirm"
             />
             <Button
                 id="cancelCreate"
                 text="Cancel"
                 press="onCancelDialog"
                 type="Transparent"
+                class="customButtonCancel"
             />
         </buttons>
-        <Label text="Item Name" />
-        <Input id="idItemName" />
-        <Label text="Price" />
-        <Input id="idPrice" />
-        <Label text="Stock" />
-        <Input id="idStock" />
+        <Label
+            text="Item Name"
+            class="customLabel"
+        />
+        <Input
+            id="idItemName"
+            class="customInput"
+        />
+        <Label
+            text="Price"
+            class="customLabel"
+        />
+        <Input
+            id="idPrice"
+            class="customInput"
+        />
+        <Label
+            text="Stock"
+            class="customLabel"
+        />
+        <Input
+            id="idStock"
+            class="customInput"
+        />
     </Dialog>
 
     <Dialog
         id="updateDialog"
         title="Update Item"
+        class="customDialog1"
     >
-        <content>
-            <Input
-                id="updateItemID"
-                visible="false"
-            />
-            <Label text="Name" />
-            <Input
-                id="updateItemName"
-                class="updateItemName"
-                enabled="false"
-            />
-            <Label text="Price" />
-            <Input id="updateItemPrice" />
-            <Label text="Stock" />
-            <Input id="updateItemStock" />
-        </content>
+        <Input
+            id="updateItemID"
+            visible="false"
+        />
+        <Label
+            class="customLabel1"
+            text="Name"
+        />
+        <Input
+            id="updateItemName"
+            class="updateItemName customInput1"
+            enabled="false"
+        />
+        <Label
+            class="customLabel1"
+            text="Price"
+        />
+        <Input
+            class="customInput1"
+            id="updateItemPrice"
+        />
+        <Label
+            class="customLabel1"
+            text="Stock"
+        />
+        <Input
+            class="customInput1"
+            id="updateItemStock"
+        />
         <buttons>
             <Button
                 text="Save"
@@ -79,15 +114,7 @@
             <Table
                 id="table"
                 width="auto"
-                items="{
-                    
-                    path: '/Items',
-                    sorter: {
-                        path: 'ID',
-                        descending: false
-                    },
-                    parameters: {expand: 'history'}
-                }"
+                items="{items>/value}"
                 noDataText="{ItemsView>/tableNoDataText}"
                 busyIndicatorDelay="{ItemsView>/tableBusyDelay}"
                 growing="true"
@@ -138,7 +165,10 @@
                             id="NameColumnTitle"
                         />
                     </Column>
-                    <Column id="PriceColumn">
+                    <Column
+                        id="PriceColumn"
+                        width="180px"
+                    >
                         <Text
                             text="Price"
                             id="PriceColumnTitle"
@@ -146,7 +176,7 @@
                     </Column>
                     <Column
                         id="StockColumn"
-                        visible="false"
+                        width="120px"
                     >
                         <Text
                             text="Stock"
@@ -174,16 +204,20 @@
                     >
                         <cells>
                             <ObjectIdentifier
-                                text="{ID}"
+                                text="{items>ID}"
                                 visible="false"
                             />
-                            <Text text="{name}" />
-                            <Text text="$ {price}" />
+                            <Text text="{items>name}" />
+                            <Text text="$ {items>price}" />
+                            <ObjectNumber
+                                number="{items>stock}"
+                                state="{path: 'items>stock', 
+                                    formatter: '.formatter.formatQuantity'}"
+                            />
                             <Text
-                                text="{stock}"
-                                visible="false"
+                                text="{path: 'items>history',
+                                        formatter: '.formatter.formatLastDate'}"
                             />
-                            <Text text="{history/0/date}" />
 
                             <HBox>
                                 <Button

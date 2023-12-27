@@ -59,7 +59,6 @@
                             <Label text="Address" />
                             <Input
                                 id="txtAddress"
-                                value="244 Nguyen Van Linh"
                                 required="true"
                             />
                         </VBox>

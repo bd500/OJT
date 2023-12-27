@@ -84,7 +84,7 @@ module.exports = cds.service.impl(async function () {
                 note: "CANCEL",
             }).into(ItemHistory);
         }
-        console.log(items);
+        // console.log(items);
         return 1;
     });
 
@@ -140,16 +140,16 @@ module.exports = cds.service.impl(async function () {
             name: req.data.name,
         });
 
-        if (item)
+        const checkExist = await SELECT.one.from(Items).where({
+            ID: req.data.ID,
+        });
+
+        if (item.ID !== checkExist.ID)
             req.error(
                 400,
                 "This item is already exist in the warehouse",
                 "name"
             );
-
-        const checkExist = await SELECT.one.from(Items).where({
-            ID: req.data.ID,
-        });
 
         if (!checkExist)
             req.error(

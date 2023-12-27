@@ -72,8 +72,11 @@
                     <Column width="80px">
                         <Text text="Status" />
                     </Column>
-                    <Column width="65px">
-                        <Text text="Action" />
+                    <Column width="100px">
+                        <Text
+                            text="Action"
+                            textAlign="Center"
+                        />
                     </Column>
                 </columns>
                 <items>
@@ -108,13 +111,21 @@
                                 state="{path: 'bills>status',
                                         formatter: '.formatter.formatBillStatus'}"
                             />
-                            <Button
-                                icon="sap-icon://sys-cancel-2"
-                                press=".onCancelOrder"
-                                type="Negative"
-                                class="iconBtn"
-                                enabled="{= ${bills>status} === 'CANCEL' ? false : true }"
-                            />
+                            <HBox>
+                                <Button
+                                    icon="sap-icon://download"
+                                    press=".onDownload"
+                                    type="Default"
+                                    enabled="{= ${bills>status} === 'CANCEL' ? false : true }"
+                                />
+                                <Button
+                                    icon="sap-icon://sys-cancel-2"
+                                    press=".onCancelOrder"
+                                    type="Default"
+                                    class="iconBtn"
+                                    enabled="{= ${bills>status} === 'CANCEL' ? false : true }"
+                                />
+                            </HBox>
                         </cells>
                     </ColumnListItem>
                 </items>

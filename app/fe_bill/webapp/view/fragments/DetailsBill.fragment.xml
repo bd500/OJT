@@ -45,7 +45,6 @@
                             <Label text="Address" />
                             <Input
                                 id="editAddress"
-                                value="243 Nguyen Van Linh"
                                 editable="false"
                             />
                         </VBox>

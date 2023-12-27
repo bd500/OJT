@@ -82,6 +82,8 @@ sap.ui.define(
                 const txtCustomer = this.byId("txtCustomer").getValue();
                 const txtExporter = this.byId("txtExporter").getValue();
                 const vbItems = this.byId("vbItems").getItems();
+                const selStatus = this.byId("selStatus").getSelectedKey();
+                const txtAddress = this.byId("txtAddress").getText();
                 // let total = 0;
                 const subtotal = this.byId("createSubTotal").getText();
                 try {
@@ -100,7 +102,8 @@ sap.ui.define(
                         exporter: txtExporter,
                         items: buyItems,
                         total: parseFloat(subtotal),
-                        status: "UNPAID",
+                        status: selStatus,
+                        // address: txtAddress
                     };
                     /**
                      *
@@ -270,7 +273,11 @@ sap.ui.define(
             },
             onCancelOrder: async function (oEvent) {
                 const oModel = oEvent.getSource().getModel("bills");
-                const cells = oEvent.getSource().getParent().getCells();
+                const cells = oEvent
+                    .getSource()
+                    .getParent()
+                    .getParent()
+                    .getCells();
                 const data = { id: cells[0].getTitle(), status: "CANCEL" };
                 try {
                     const res = await fetch("/bills/updateOrderStatus", {
@@ -325,6 +332,13 @@ sap.ui.define(
             onRefresh: async function (oEvent) {
                 const oBillsModel = await models.getBills();
                 this.getView().setModel(oBillsModel, "bills");
+            },
+            onDownload: async function (oEvent) {
+                const cells = oEvent
+                    .getSource()
+                    .getParent()
+                    .getParent()
+                    .getCells();
             },
         });
     }

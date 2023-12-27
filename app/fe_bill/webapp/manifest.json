@@ -102,7 +102,7 @@
           "name": "RouteBills",
           "pattern": ":?query:",
           "target": [
-            "TargetBase"
+            "TargetHome"
           ]
         },
         {
@@ -132,7 +132,7 @@
         }
       ],
       "targets": {
-        "TargetBase": {
+        "TargetHome": {
           "viewType": "XML",
           "transition": "slide",
           "clearControlAggregation": false,
@@ -159,6 +159,11 @@
         "TargetDetails": {
           "viewId": "Details",
           "viewName": "Details",
+          "viewLevel": 2
+        },
+        "TargetBase": {
+          "viewId": "Base",
+          "viewName": "Base",
           "viewLevel": 2
         }
       }

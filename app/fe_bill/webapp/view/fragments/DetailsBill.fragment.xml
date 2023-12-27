@@ -4,7 +4,6 @@
     xmlns:core="sap.ui.core"
 >
     <Dialog
-        title="Details"
         id="detailsDialog"
         contentHeight="60%"
     >
@@ -13,69 +12,94 @@
             alignContent="Center"
             alignItems="Baseline"
         >
-            <HBox id="hbEditId">
-                <Label text="ID: " />
-                <Input
-                    placeholder="ID"
-                    id="editId"
-                    required="true"
-                    editable="false"
-                />
-            </HBox>
-            <HBox id="hbEditCus">
-                <Label text="Customer: " />
-                <Input
-                    placeholder="Customer's Name"
-                    id="editCustomer"
-                    required="true"
-                    editable="false"
-                />
-            </HBox>
-            <HBox id="hbEditEx">
-                <Label text="Exporter: " />
-                <Input
-                    placeholder="Exporter's Name"
-                    id="editExporter"
-                    editable="false"
-                />
-            </HBox>
-            <HBox id="hbEditDate">
-                <Label text="Date:" />
-                <DatePicker
-                    id="editDate"
-                    editable="false"
-                    width="230px"
-                />
-            </HBox>
-            <HBox id="hbStatus">
-                <Label text="Status" />
-                <Input
-                    value="PAID"
-                    editable="false"
-                    id="txtStatus"
-                />
-            </HBox>
-            <HBox>
-                <Label text="Item" />
-                <Label text="Quantity" />
-                <Label text="Price per unit" />
-            </HBox>
-            <VBox id="vbEditItems" />
-            <!-- <Button
-                id="btnAddEditItem"
-                type="Transparent"
-                icon="sap-icon://add"
-                text="Item"
-                press=".onAppendEditItem"
-                enabled="true"
-            /> -->
-            <HBox
-                id="hbEditTotal"
-                alignItems="End"
-            >
-                <Label text="Total: " />
-                <Label id="editTotal" />
-            </HBox>
+            <FlexBox width="100%">
+                <VBox>
+                    <HBox>
+                        <Label
+                            id="editId"
+                            visible="false"
+                        />
+                    </HBox>
+                    <HBox>
+                        <VBox>
+                            <Label text="Customer:" />
+                            <Input
+                                id='editCustomer'
+                                editable="false"
+                            />
+                        </VBox>
+                        <VBox>
+                            <Label text="Exporter:" />
+                            <Input
+                                id="editExporter"
+                                editable="false"
+                            />
+                        </VBox>
+                        <VBox>
+                            <Label text="Status" />
+                            <Label id="editStatus" />
+                        </VBox>
+                    </HBox>
+                    <HBox>
+                        <VBox>
+                            <Label text="Address" />
+                            <Input
+                                id="editAddress"
+                                value="243 Nguyen Van Linh"
+                                editable="false"
+                            />
+                        </VBox>
+                        <VBox>
+                            <Label text="Created At" />
+                            <DatePicker
+                                id="editDate"
+                                editable="false"
+                                value="{formatter: '.format.formatDate'}"
+                            />
+                        </VBox>
+                    </HBox>
+                    <Toolbar
+                        class='separator'
+                        width="100%"
+                        height="1px"
+                    />
+                    <Label
+                        text="Purchased Items"
+                        design="Bold"
+                    />
+                    <VBox>
+                        <HBox id="lbEditItemContainer">
+                            <VBox width="177px">
+                                <Label text="Item" />
+                                <!-- <Input value="Knife" visible="false" /> -->
+                            </VBox>
+                            <VBox width="177px">
+                                <Label text="Quantity" />
+                                <!-- <Input visible="false" /> -->
+                            </VBox>
+                            <VBox>
+                                <Label text="Unit price" />
+                            </VBox>
+                            <VBox>
+                                <Label text="Total" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                    <VBox id="vbEditItems" />
+                    <Toolbar
+                        class='separator'
+                        width="100%"
+                        height="1px"
+                    />
+                    <HBox>
+                        <Label text="Subtotal: ($)" />
+                        <Label
+                            design="Bold"
+                            id="editTotal"
+                        />
+                    </HBox>
+                </VBox>
+            </FlexBox>
         </VBox>
         <beginButton>
             <Button

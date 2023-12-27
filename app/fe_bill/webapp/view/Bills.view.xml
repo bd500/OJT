@@ -31,6 +31,12 @@
                             text="ADD"
                             icon="sap-icon://add"
                         />
+                        <Button
+                            type="Emphasized"
+                            text="Refresh"
+                            icon="sap-icon://synchronize"
+                            press=".onRefresh"
+                        />
                         <OverflowToolbarButton
                             icon="sap-icon://sort"
                             text="Sort"
@@ -38,10 +44,6 @@
                         <OverflowToolbarButton
                             icon="sap-icon://filter"
                             text="Filter"
-                        />
-                        <OverflowToolbarButton
-                            icon="sap-icon://group"
-                            text="Group"
                         />
                     </Toolbar>
                 </headerToolbar>
@@ -107,50 +109,16 @@
                                         formatter: '.formatter.formatBillStatus'}"
                             />
                             <Button
-                                icon="sap-icon://delete"
+                                icon="sap-icon://sys-cancel-2"
                                 press=".onCancelOrder"
-                                type="Default"
+                                type="Negative"
+                                class="iconBtn"
                                 enabled="{= ${bills>status} === 'CANCEL' ? false : true }"
                             />
                         </cells>
                     </ColumnListItem>
                 </items>
             </Table>
-            <OverflowToolbar>
-                <ToolbarSpacer />
-                <Button
-                    id="btnFirstPage"
-                    icon="sap-icon://close-command-field"
-                    press=".onFirstPress"
-                    tooltip="First"
-                    type="Transparent"
-                />
-                <Button
-                    id="btnPrevPage"
-                    icon="sap-icon://navigation-left-arrow"
-                    press=".onPrevPress"
-                    tooltip="Previous"
-                    type="Transparent"
-                />
-                <Text
-                    id="PageTextId"
-                    text="Page 1 of 1"
-                />
-                <Button
-                    id="btnNextPage"
-                    icon="sap-icon://navigation-right-arrow"
-                    press=".onNextPress"
-                    tooltip="Next"
-                    type="Transparent"
-                />
-                <Button
-                    id="btnLastPage"
-                    icon="sap-icon://open-command-field"
-                    press=".onLastPress"
-                    tooltip="Last"
-                    type="Transparent"
-                />
-            </OverflowToolbar>
         </content>
     </Page>
 </mvc:View>

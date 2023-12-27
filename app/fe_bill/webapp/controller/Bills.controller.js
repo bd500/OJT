@@ -33,10 +33,12 @@ sap.ui.define(
         const calTotal = (items) => {
             let res = 0;
             items.map((i) => {
-                const hb = i.getItems();
-                const quantity = parseInt(hb[1].getValue());
-                const price = hb[2].getText();
-                res += price * quantity;
+                // const hb = i.getItems();
+                // const quantity = parseInt(hb[1].getValue());
+                // const price = hb[2].getText();
+                // res += price * quantity;
+                const total = parseFloat(i.getItems()[3].getText());
+                res += total;
             });
             return res;
         };
@@ -73,46 +75,47 @@ sap.ui.define(
             },
             onCloseDialog: function (oEvent, dialog) {
                 this.byId(dialog).close();
+                if (dialog === "detailsDialog")
+                    this.getView().byId("vbEditItems").destroyItems();
             },
             onAddNewDialog: async function () {
                 const txtCustomer = this.byId("txtCustomer").getValue();
                 const txtExporter = this.byId("txtExporter").getValue();
                 const vbItems = this.byId("vbItems").getItems();
-                let total = 0;
-
-                const buyItems = vbItems.map((i) => {
-                    const hb = i.getItems();
-                    const item_ID = hb[0].getSelectedKey(); //id is uid
-                    // const item_ID = parseInt(hb[0].getSelectedKey()); //id is integer
-                    const quantity = parseInt(hb[1].getValue());
-                    // const price = hb[0].data(item_ID + ""); //only accept string as key
-                    const price = hb[2].getText();
-                    total += price * quantity;
-                    return { item_ID, quantity };
-                });
-
-                const data = {
-                    customer: txtCustomer,
-                    exporter: txtExporter,
-                    items: buyItems,
-                    total: total,
-                    status: "UNPAID",
-                };
-                /**
-                 *
-                 * @param {Array} listItems
-                 * @private
-                 * @description: Validate if the the list contains duplicate items
-                 */
-                const validateDuplicateItem = (listItems) => {
-                    const hasDuplicate = listItems.some(
-                        (val, i) => listItems.indexOf(val) !== i
-                    );
-                    if (hasDuplicate)
-                        throw new Error("The list contains duplicate item");
-                };
-
+                // let total = 0;
+                const subtotal = this.byId("createSubTotal").getText();
                 try {
+                    const buyItems = vbItems.map((i) => {
+                        const hb = i.getItems();
+                        const item_ID = hb[0].getSelectedKey(); //id is uid
+                        // const item_ID = parseInt(hb[0].getSelectedKey()); //id is integer
+                        const quantity = parseInt(hb[1].getValue());
+                        if (quantity <= 0)
+                            throw new Error("Quantity can not be 0 or less");
+                        return { item_ID, quantity };
+                    });
+
+                    const data = {
+                        customer: txtCustomer,
+                        exporter: txtExporter,
+                        items: buyItems,
+                        total: parseFloat(subtotal),
+                        status: "UNPAID",
+                    };
+                    /**
+                     *
+                     * @param {Array} listItems
+                     * @private
+                     * @description: Validate if the the list contains duplicate items
+                     */
+                    const validateDuplicateItem = (listItems) => {
+                        const hasDuplicate = listItems.some(
+                            (val, i) => listItems.indexOf(val) !== i
+                        );
+                        if (hasDuplicate)
+                            throw new Error("The list contains duplicate item");
+                    };
+
                     validateDuplicateItem(data.items);
                     const res = await fetch("/bills/Bills", {
                         method: "POST",
@@ -136,30 +139,38 @@ sap.ui.define(
             onAppendItem: function () {
                 const vbItems = this.byId("vbItems");
                 const hbItem = this.byId("hbItem");
-                vbItems.addItem(hbItem.clone());
+                const hbClone = hbItem.clone();
+                vbItems.addItem(hbClone);
 
-                const lbTotal = this.byId("createTotal");
-                let total = parseFloat(lbTotal.getText());
+                const lbSubTotal = this.byId("createSubTotal");
+                let subtotal = parseFloat(lbSubTotal.getText());
 
-                const quantity = hbItem.getItems()[1].getValue();
-                const price = parseFloat(hbItem.getItems()[2].getText());
-                total += quantity * price;
-                lbTotal.setText(total);
+                // const ipQuantity = hbItem.getItems()[1].getItems()[0];
+                // const quantity = ipQuantity.getValue();
+                const quantity = hbClone.getItems()[1].getValue();
+                // const txtUnitPrice = hbItem.getItems()[2].getItems()[0];
+                // const unitPrice = parseFloat(txtUnitPrice.getText());
+                const unitPrice = parseFloat(hbClone.getItems()[2].getText());
+                const txtTotal = hbClone.getItems()[3];
+                txtTotal.setText(unitPrice * quantity);
+
+                subtotal += quantity * unitPrice;
+                lbSubTotal.setText(subtotal);
             },
             onRemoveItem: function (oEvent) {
                 const child = oEvent.getSource();
-                const parent = child.getParent();
+                const hbItem = child.getParent().getParent();
                 const vbItems = this.byId("vbItems");
 
-                const lbTotal = this.byId("createTotal");
-                let total = parseFloat(lbTotal.getText());
+                const lbTotal = this.byId("createSubTotal");
+                let subtotal = parseFloat(lbTotal.getText());
 
-                const quantity = parent.getItems()[1].getValue();
-                const price = parent.getItems()[2].getText();
-                total -= quantity * price;
-                lbTotal.setText(total);
+                const total = hbItem.getItems()[3].getText();
+                subtotal -= total;
+                lbTotal.setText(subtotal);
 
-                vbItems.removeItem(parent);
+                // vbItems.removeItem(parent);
+                vbItems.removeItem(hbItem);
             },
             onChooseAddItem: function (oEvent) {
                 const oModel = oEvent.getSource().getModel("items");
@@ -167,14 +178,24 @@ sap.ui.define(
                 const oData = oModel.getData().value;
                 const selItem = oData.find((x) => x.ID === key);
                 const hbox = oEvent.getSource().getParent();
-                hbox.getItems()[2].setText(`${selItem.price}`);
+                // hbox.getItems()[2].setText(`${selItem.price}`);
+                const txtUnitPrice = hbox.getItems()[2];
+                txtUnitPrice.setText(selItem.price);
 
-                const total = calTotal(hbox.getParent().getItems());
-                this.byId("createTotal").setText(total);
+                const quantity = hbox.getItems()[1].getValue();
+                hbox.getItems()[3].setText(quantity * selItem.price);
+                // const total = calTotal(hbox.getParent().getItems());
+                const subtotal = calTotal(hbox.getParent().getItems());
+                this.byId("createSubTotal").setText(subtotal);
             },
             onInputQuantity: function (oEvent) {
                 const vbItems = this.byId("vbItems").getItems();
-                let lbTotal = this.byId("createTotal");
+                let lbTotal = this.byId("createSubTotal");
+                const quantity = oEvent.getParameters().value;
+
+                const hbItem = oEvent.getSource().getParent();
+                const unitPrice = hbItem.getItems()[2].getText();
+                hbItem.getItems()[3].setText(unitPrice * quantity);
                 let total = calTotal(vbItems);
 
                 lbTotal.setText(total);
@@ -200,12 +221,14 @@ sap.ui.define(
                 }
 
                 const dialog = await this.oDetailsDialog;
+                dialog.setTitle(`Details ID: ${selId}`);
                 dialog.open();
-                this.byId("editId").setValue(selId);
+                this.byId("editId").setText(selId);
                 this.byId("editCustomer").setValue(selCustomer);
                 this.byId("editExporter").setValue(selExporter);
                 this.byId("editDate").setValue(selDate);
                 this.byId("editTotal").setText(`$${selTotal}`);
+                this.byId("editStatus").setText(selStatus);
 
                 const btnUpdate = this.byId("btnUpdate");
                 selStatus === "PAID"
@@ -231,11 +254,17 @@ sap.ui.define(
                     });
                     const newPrice = new sap.m.Text({
                         text: `$${oData.price}`,
+                        width: "82px",
+                    });
+
+                    const newTotal = new sap.m.Text({
+                        text: oData.price * i.quantity,
                     });
 
                     container.addItem(newItem);
                     container.addItem(newQuanitty);
                     container.addItem(newPrice);
+                    container.addItem(newTotal);
                     vbItems.addItem(container);
                 }
             },
@@ -262,7 +291,7 @@ sap.ui.define(
                 }
             },
             onUpdateDialog: async function () {
-                const id = this.getView().byId("editId").getValue();
+                const id = this.getView().byId("editId").getText();
                 try {
                     const res = await fetch("/bills/updateOrderStatus", {
                         method: "POST",
@@ -293,10 +322,10 @@ sap.ui.define(
                     .getBinding("items")
                     .filter(oFilter, FilterType.Application);
             },
-            onFirstPress: function () {},
-            onNextPress: function () {},
-            onPrevPress: function () {},
-            onLastPress: function () {},
+            onRefresh: async function (oEvent) {
+                const oBillsModel = await models.getBills();
+                this.getView().setModel(oBillsModel, "bills");
+            },
         });
     }
 );

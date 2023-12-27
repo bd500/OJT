@@ -10,7 +10,7 @@
     displayBlock="true"
     xmlns="sap.m"
 >
-    <ObjectHeader title="History" />
+    <!-- <ObjectHeader title="History" /> -->
 
     <!-- <Page id="historyPage">
         <List
@@ -52,10 +52,6 @@
                                 state="{path:'history>quantity', 
                                         formatter: '.formatter.formatItemChange'}"
                             />
-                            <!-- <Text
-                                textAlign="Center"
-                                text="{history>note}"
-                            /> -->
                             <ObjectStatus
                                 inverted="true"
                                 text="{history>note}"

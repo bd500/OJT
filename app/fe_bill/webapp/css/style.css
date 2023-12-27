@@ -30,7 +30,7 @@
 }
 
 #container-febill---Bills--detailsDialog {
-    min-width: 550px;
+    min-width: 680px;
     overflow-x: overlay;
 }
 
@@ -166,4 +166,12 @@
     max-width: 300px;
     /* Adjust the maximum width of the dialogs */
     width: 30%;
+}
+
+.separator{
+    margin: 8px 0 8px;
+}
+
+.iconBtn{
+    border-radius: 50% !important;
 }

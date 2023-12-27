@@ -48,11 +48,12 @@ sap.ui.define(["sap/ui/core/format/DateFormat"], (DateFormat) => {
                 case "NEW":
                     status = "Information";
                     break;
-                case "Import":
+                case "IMPORT":
                     status = "Indication07";
                     break;
                 case "UPDATE":
-                    status = "Indication08";
+                    status = "Indication01";
+                    break;
                 default:
                     status = "Success";
                     break;

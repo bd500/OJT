@@ -1,0 +1,74 @@
+<core:FragmentDefinition
+    xmlns:f="sap.f"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Dialog
+        id="importDialog"
+        contentHeight="60%"
+        title="Import Stocks"
+    >
+        <VBox>
+            <FlexBox>
+                <HBox>
+                    <VBox alignItems="Center">
+                        <Label text="Item" />
+                        <ComboBox
+                            id="cbItems"
+                            placeholder="Choose an item"
+                            items="{
+                                    path: 'items>/value',
+                                    templateShareable: true
+                                    }"
+                            required="true"
+                            selectionChange=".onChooseImport"
+                        >
+                            <core:Item
+                                key="{items>ID}"
+                                text="{items>name}"
+                            />
+                        </ComboBox>
+                    </VBox>
+                    <VBox alignItems="Center">
+                        <Label text="Current stocks" />
+                        <Label
+                            text="0"
+                            design="Bold"
+                            id="lbCurrentStock"
+                        />
+                    </VBox>
+                    <VBox alignItems="Center">
+                        <Label
+                            text="Increase by"
+                            textAlign="Center"
+                        />
+                        <StepInput
+                            width="120px"
+                            min="1"
+                            id="inStock"
+                            value="1"
+                        />
+                    </VBox>
+                </HBox>
+            </FlexBox>
+        </VBox>
+        <beginButton>
+            <Button
+                id="btnImport"
+                type="Accept"
+                text="Import"
+                press=".onImportStock"
+                icon="sap-icon://accept"
+            />
+        </beginButton>
+        <endButton>
+            <Button
+                id="btnCloseImport"
+                type="Reject"
+                text="Close"
+                icon="sap-icon://reset"
+                press=".onCancelDialog"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

@@ -68,7 +68,7 @@
         <Input
             id="updateItemName"
             class="updateItemName customInput1"
-            enabled="false"
+            enabled="true"
         />
         <Label
             class="customLabel1"
@@ -85,6 +85,7 @@
         <Input
             class="customInput1"
             id="updateItemStock"
+            enabled="false"
         />
         <buttons>
             <Button
@@ -132,6 +133,18 @@
                         <Button
                             icon="sap-icon://add-coursebook"
                             press="onOpenAddDialog"
+                            text="Add new"
+                        />
+                        <Button
+                            press=".onImportDialog"
+                            text="Import stock"
+                            icon="sap-icon://create-form"
+                        />
+                        <Button
+                            type="Emphasized"
+                            text="Refresh"
+                            icon="sap-icon://synchronize"
+                            press=".onRefresh"
                         />
 
                         <SearchField
@@ -152,7 +165,7 @@
                 <columns>
                     <Column
                         id="IDColumn"
-                        visible="false"
+                        width="120px"
                     >
                         <Text
                             text="ID"
@@ -203,10 +216,7 @@
                         press=".onPress"
                     >
                         <cells>
-                            <ObjectIdentifier
-                                text="{items>ID}"
-                                visible="false"
-                            />
+                            <ObjectIdentifier title="{items>ID}" />
                             <Text text="{items>name}" />
                             <Text text="$ {items>price}" />
                             <ObjectNumber

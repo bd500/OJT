@@ -153,7 +153,7 @@ sap.ui.define(
                 // Directly access the values from the selected item
                 var oSelectedItem = oEvent
                     .getSource()
-                    .getBindingContext()
+                    .getBindingContext("items")
                     .getObject();
 
                 // Set the values to the dialog input fields
@@ -213,6 +213,54 @@ sap.ui.define(
                         "An unexpected error occurred while updating ItemHistory."
                     );
                 }
+            },
+            onImportDialog: async function () {
+                if (!this.oImportDialog) {
+                    this.oImportDialog = this.loadFragment({
+                        name: "febill.view.fragments.Import",
+                    });
+                }
+                this.oImportDialog.then(function (oDialog) {
+                    oDialog.open();
+                });
+            },
+            onChooseImport: function (oEvent) {
+                const id = oEvent.getParameters().selectedItem.getKey();
+                const data = this.getView().getModel("items").getData();
+                const selItem = data.value.find((e) => e.ID === id);
+                this.byId("lbCurrentStock").setText(selItem.stock);
+            },
+            onImportStock: async function () {
+                const id = this.byId("cbItems").getSelectedKey();
+                const num = this.byId("inStock").getValue();
+                const data = {
+                    id: id,
+                    num: num,
+                };
+                console.log(data);
+
+                try {
+                    const res = await fetch("/bills/importStock", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(data),
+                    });
+                    if (!res.ok) {
+                        throw new Error(await res.text());
+                    }
+                    new sap.m.MessageBox.success("Success");
+
+                    // this.getView().getModel("bills").refresh(true)
+                    this.byId("importDialog").close();
+                } catch (error) {
+                    new sap.m.MessageBox.error(error.message);
+                }
+            },
+            onRefresh: async function () {
+                const oBillsModel = await models.getItems();
+                this.getView().setModel(oBillsModel, "items");
             },
         });
     }

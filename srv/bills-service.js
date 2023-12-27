@@ -58,34 +58,6 @@ module.exports = cds.service.impl(async function () {
         for (let i of items) if (i.quantity < 0) return false;
     };
 
-    // this.on("cancelOrder", async (req) => {
-    //     // console.log(OrderStatus.PAID);\
-    //     //Update bill status
-    //     console.log(req.data);
-    //     await UPDATE(Bills)
-    //         .set({ status: "CANCEL" })
-    //         .where({ ID: req.data.id });
-    //     const items = await SELECT(Bills)
-    //         .columns((c) => {
-    //             c.items.item_ID, c.items.quantity, c.ID;
-    //         })
-    //         .where({ ID: req.data.id });
-    //     for (let i of items) {
-    //         //Update current stock for item
-    //         await UPDATE(Items)
-    //             .set({ stock: { "+=": i.quantity } })
-    //             .where({ ID: i.item_ID });
-    //         //Create a history about the cancelation
-    //         await INSERT({
-    //             item_ID: i.item_ID,
-    //             quantity: i.quantity,
-    //             note: "CANCEL A BILL",
-    //         }).into(ItemHistory);
-    //     }
-    //     console.log(items);
-    //     return 1;
-    // });
-
     this.on("updateOrderStatus", async (req) => {
         // await UPDATE(Bills).set({ status: "PAID" }).where({ ID: req.data.id });
         await UPDATE(Bills)
@@ -160,11 +132,33 @@ module.exports = cds.service.impl(async function () {
         const itemStock = req.data.stock;
         const itemPrice = req.data.price;
 
-        const items = await SELECT.one.from(Items).where({
+        // const items = await SELECT.one.from(Items).where({
+        //     ID: req.data.ID,
+        // });
+
+        const item = await SELECT.one.from(Items).where({
+            name: req.data.name,
+        });
+
+        if (item)
+            req.error(
+                400,
+                "This item is already exist in the warehouse",
+                "name"
+            );
+
+        const checkExist = await SELECT.one.from(Items).where({
             ID: req.data.ID,
         });
 
-        req.data.stock += items.stock;
+        if (!checkExist)
+            req.error(
+                400,
+                "The item you are looking for does not exist...",
+                "ID"
+            );
+
+        // req.data.stock += items.stock;
 
         if (itemStock <= 0) {
             req.reject(400, `Stock cannot be equal or smaller than 0`);
@@ -177,21 +171,37 @@ module.exports = cds.service.impl(async function () {
     this.after(["PATCH", "PUT"], "Items", async (res) => {
         const date = new Date().toISOString();
 
-        const latestItemHistory = await SELECT.from(ItemHistory)
-            .where({ item_ID: res.ID })
-            .orderBy({ date: "desc" })
-            .limit(1);
+        // const latestItemHistory = await SELECT.from(ItemHistory)
+        //     .where({ item_ID: res.ID })
+        //     .orderBy({ date: "desc" })
+        //     .limit(1);
 
-        console.log("last quantity: " + latestItemHistory[0].quantity);
-        console.log("stock: " + res.stock);
-        const currentQuantity = res.stock - latestItemHistory[0].quantity;
+        // console.log("last quantity: " + latestItemHistory[0].quantity);
+        // console.log("stock: " + res.stock);
+        // const currentQuantity = res.stock - latestItemHistory[0].quantity;
 
         await INSERT.into(ItemHistory).entries({
             item_ID: res.ID,
             date: date,
-            quantity: currentQuantity,
-            note: "Update Item Info",
+            quantity: 0,
+            note: "UPDATE",
         });
         return res;
+    });
+
+    this.on("importStock", async (req) => {
+        const { id, num } = req.data;
+        console.log(req.data);
+        await UPDATE(Items)
+            .set({
+                stock: { "+=": num },
+            })
+            .where({ ID: id });
+
+        await INSERT({
+            item_ID: id,
+            quantity: num,
+            note: "IMPORT",
+        }).into(ItemHistory);
     });
 });

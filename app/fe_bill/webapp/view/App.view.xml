@@ -24,10 +24,7 @@
         <tnt:sideContent>
             <tnt:SideNavigation id="sideNav">
                 <tnt:item>
-                    <tnt:NavigationList
-                        itemSelect=".onItemSelect"
-                        selectedKey="RouteBills"
-                    >
+                    <tnt:NavigationList itemSelect=".onItemSelect">
                         <tnt:NavigationListItem
                             icon="sap-icon://home"
                             text="Home"

@@ -5,7 +5,7 @@
     xmlns:core="sap.ui.core"
 >
     <Dialog
-        title="Create a new bill"
+        title="Create a new Bill"
         id="addBillDialog"
         contentHeight="60%"
     >
@@ -14,84 +14,148 @@
             alignContent="Center"
             alignItems="Baseline"
         >
-            <HBox id="hb1">
-                <Label text="Customer" />
-                <Input
-                    placeholder="Customer's Name"
-                    id="txtCustomer"
-                    required="true"
-                />
-            </HBox>
-            <HBox id="hb2">
-                <Label text="Exporter" />
-                <Input
-                    placeholder="Exporter's Name"
-                    id="txtExporter"
-                    required="true"
-                />
-            </HBox>
-            <HBox>
-                <Label
-                    id="lbItem"
-                    text="Item"
-                    width="auto"
-                />
-                <Label
-                    id="lbQuantity"
-                    text="Quantity"
-                />
-                <Label
-                    id="lbPrice"
-                    text="Price per unit"
-                />
-            </HBox>
-
-            <VBox id="vbItems">
-                <HBox id="hbItem">
-                    <ComboBox
-                        id="cbItems"
-                        placeholder="Choose an item"
-                        items="{
-                            path: 'items>/value',
-                            templateShareable: true
-                        }"
-                        customData="{ 
-                            path: 'items>/value',
-                            templateShareable: true
-                         }"
-                        required="true"
-                        selectionChange=".onChooseAddItem"
-                    >
-                        <customData>
-                            <core:CustomData
-                                key="{items>ID}"
-                                value="{items>price}"
-                            />
-                        </customData>
-                        <core:Item
-                            key="{items>ID}"
-                            text="{items>name}"
+            <VBox>
+                <FlexBox
+                    justifyContent="Center"
+                    width="100%"
+                >
+                    <VBox>
+                        <HBox>
+                            <VBox>
+                                <Label text="Customer's Name:" />
+                                <Input
+                                    id='txtCustomer'
+                                    placeholder="Enter name"
+                                    required="true"
+                                />
+                            </VBox>
+                            <VBox>
+                                <Label text="Exporter's Name:" />
+                                <Input
+                                    placeholder="Enter name"
+                                    id="txtExporter"
+                                    required="true"
+                                />
+                            </VBox>
+                            <VBox>
+                                <Label text="Status" />
+                                <Select
+                                    id="selStatus"
+                                    selectedKey="UNPAID"
+                                >
+                                    <core:Item
+                                        key="UNPAID"
+                                        text="UNPAID"
+                                    />
+                                    <core:Item
+                                        key="PAID"
+                                        text="PAID"
+                                    />
+                                </Select>
+                            </VBox>
+                        </HBox>
+                        <HBox />
+                        <HBox>
+                            <VBox>
+                                <Label text="Address" />
+                                <Input
+                                    id="txtAddress"
+                                    required="true"
+                                />
+                            </VBox>
+                            <VBox>
+                                <Label text="City" />
+                                <Input
+                                    id="txtCity"
+                                    required="true"
+                                />
+                            </VBox>
+                            <VBox>
+                                <Label text="Country" />
+                                <Input
+                                    id="txtCountry"
+                                    required="true"
+                                />
+                            </VBox>
+                        </HBox>
+                        <Toolbar
+                            class='separator'
+                            width="100%"
+                            height="1px"
                         />
-                    </ComboBox>
-                    <Input
-                        type="Number"
-                        id="txtQuantity"
-                        required="true"
-                        width="50px"
-                        value="1"
-                    />
-                    <Text
-                        id="txtPrice"
-                        text=""
-                        width="50px"
-                    />
-                    <Button
-                        type="Reject"
-                        icon="sap-icon://less"
-                        press=".onRemoveItem"
-                    />
-                </HBox>
+                        <Label
+                            text="Please choose Items you want to buy..."
+                            design="Bold"
+                        />
+                        <HBox id="lbCreateItemContainer">
+                            <VBox width="206px">
+                                <Label text="Item" />
+                            </VBox>
+                            <VBox width="150px">
+                                <Label text="Quantity" />
+                            </VBox>
+                            <VBox>
+                                <Label text="Unit price" />
+                            </VBox>
+                            <VBox>
+                                <Label text="Total" />
+                            </VBox>
+                        </HBox>
+                        <VBox id="vbItems">
+                            <HBox id="hbItem">
+                                <ComboBox
+                                    id="cbItems"
+                                    placeholder="Choose an item"
+                                    items="{
+                                            path: 'items>/value',
+                                            templateShareable: true
+                                        }"
+                                    required="true"
+                                    selectionChange=".onChooseAddItem"
+                                >
+                                    <core:Item
+                                        key="{items>ID}"
+                                        text="{items>name}"
+                                    />
+                                </ComboBox>
+                                <!-- <Input
+                                    value="0"
+                                    liveChange=".onInputQuantity"
+                                /> -->
+                                <StepInput
+                                    width="150px"
+                                    min="0"
+                                    value="0"
+                                    change=".onInputQuantity"
+                                />
+                                <Label
+                                    text="0"
+                                    width="80px"
+                                    textAlign="Center"
+                                />
+                                <Label
+                                    text="0"
+                                    width="80px"
+                                    textAlign="Center"
+                                />
+                                <VBox justifyContent="End">
+                                    <Button
+                                        type="Reject"
+                                        icon="sap-icon://less"
+                                        press=".onRemoveItem"
+                                    />
+                                </VBox>
+                            </HBox>
+                        </VBox>
+                        <Toolbar
+                            class='separator'
+                            width="100%"
+                            height="1px"
+                        />
+                    </VBox>
+                </FlexBox>
             </VBox>
+
             <Button
                 id="btnAddItem"
                 type="Transparent"
@@ -99,6 +163,16 @@
                 text="Item"
                 press=".onAppendItem"
             />
+        </VBox>
+        <VBox id="vbTotal">
+            <HBox id="hbTotal">
+                <Label text="Total($): " />
+                <Label
+                    id="createSubTotal"
+                    design="Bold"
+                    text="0"
+                />
+            </HBox>
         </VBox>
         <beginButton>
             <Button

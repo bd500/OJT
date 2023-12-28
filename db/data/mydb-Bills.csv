@@ -1,21 +1,21 @@
-id,customer,exporter,createdAt,total,status
-ea27b5d9-670c-4ce4-a4b4-68dd7812a76d,Cyndi Shellcross,Camila Vinsen,2023-09-25 12:55:10,1513.66,PAID
-29a87a82-c1f4-457e-ac57-8e7b3b67842a,Valaria McLagain,Tate Geach,2022-12-31 09:18:04,415.85,UNPAID
-344df5af-f6aa-4925-8690-2a32f2089ec4,Abdel Shieber,Adrian Lyall,2023-03-23 17:18:44,635.94,PAID
-838dd2c8-14cf-4b8c-86f2-adef3cb6ef40,Richmond Merrill,Marjie Dominichelli,2023-01-28 22:15:22,1658.7,PAID
-f395d865-2d19-40d7-b42a-25dd8e246856,Alisha Haldon,Toby Egre,2023-02-15 12:13:48,1488.68,PAID
-77788ee7-a3b6-4d0c-91c9-e234019445b0,Kliment Fletcher,Cyrille Freear,2023-03-31 05:27:27,190.75,PAID
-62af121f-f7d9-41df-8322-9b9aa775f44e,Giorgio Tew,Roxanne Medway,2023-05-07 18:14:55,1691.88,PAID
-56e6f892-be3d-4067-94ff-a284714c9536,Jsandye Ray,Fay Rebillard,2023-02-02 11:21:17,554.46,UNPAID
-230ffbe7-9ce6-49af-9f38-f880e9d84087,Wallache Brodley,Felix Compfort,2023-08-18 06:53:12,433.73,PAID
-a18c9cdd-991d-46ed-a926-3bce801a1ea8,Moreen Daintry,Helene Medd,2023-04-02 05:56:36,386.17,PAID
-dcd03c88-aeba-4d30-befa-fc85f52f7c88,Logan Artis,Isahella Hurdwell,2023-07-02 08:06:28,841.46,PAID
-dbbffc9f-fb2d-49ca-afd1-9b3558bb597c,Clarie Durek,Graeme Kyle,2023-10-25 01:23:51,305.88,UNPAID
-ea92fce2-7ab6-4836-918f-b4ea68483ae8,Lani Hickford,Hyatt Duell,2023-09-03 09:36:43,1145.1,PAID
-4e760139-85c0-4686-a152-cb5979b01e80,Jock Groarty,Everett Moffat,2023-12-21 19:54:49,1308.32,PAID
-250ec20a-b0ed-40e8-95ed-e99dd6a8f8e9,Tuckie Bullion,Elsi Toopin,2023-08-03 13:42:06,133.75,PAID
-f3052137-4c7b-4cbf-ba91-ba65301d74bf,Klarika Cant,Shanta Gieraths,2023-03-18 13:39:16,516.94,PAID
-cfcd20b4-0bc6-4bdf-b954-3452622b06b7,Nikola Glew,Geno Maxted,2023-02-10 10:49:02,1609.79,PAID
-3b19f883-bf63-48a5-9bd9-e4851a443649,Deeanne Brotherheed,Adam Gosalvez,2023-03-18 19:29:41,1001.92,PAID
-60a75519-781b-4808-8c9d-27ff7fe447d3,Gabbi Dasent,Yank Iacivelli,2023-12-04 15:44:00,1506.9,PAID
-822dd0a3-e16e-4aa7-abe5-9b4ee49210f9,Cosme Hazell,Herman Lightbowne,2023-04-20 00:50:51,1140.97,PAID
+id,customer,exporter,createdAt,total,status,address,city,country
+ea27b5d9-670c-4ce4-a4b4-68dd7812a76d,Cyndi Shellcross,Camila Vinsen,2023-09-25 12:55:10,1513.66,PAID,5991 Crescent Oaks Crossing,City1,Country1
+29a87a82-c1f4-457e-ac57-8e7b3b67842a,Valaria McLagain,Tate Geach,2022-12-31 09:18:04,415.85,UNPAID,444 Mallard Drive,City2,Country2
+344df5af-f6aa-4925-8690-2a32f2089ec4,Abdel Shieber,Adrian Lyall,2023-03-23 17:18:44,635.94,PAID,5 Riverside Street,City3,Country3
+838dd2c8-14cf-4b8c-86f2-adef3cb6ef40,Richmond Merrill,Marjie Dominichelli,2023-01-28 22:15:22,1658.7,PAID,439 Schmedeman Street,City4,Country4
+f395d865-2d19-40d7-b42a-25dd8e246856,Alisha Haldon,Toby Egre,2023-02-15 12:13:48,1488.68,PAID,47 Service Park,City5,Country5
+77788ee7-a3b6-4d0c-91c9-e234019445b0,Kliment Fletcher,Cyrille Freear,2023-03-31 05:27:27,190.75,PAID,28 Erie Parkway,City6,Country6
+62af121f-f7d9-41df-8322-9b9aa775f44e,Giorgio Tew,Roxanne Medway,2023-05-07 18:14:55,1691.88,PAID,3 Oneill Crossing,City7,Country7
+56e6f892-be3d-4067-94ff-a284714c9536,Jsandye Ray,Fay Rebillard,2023-02-02 11:21:17,554.46,UNPAID,997 Alpine Point,City8,Country8
+230ffbe7-9ce6-49af-9f38-f880e9d84087,Wallache Brodley,Felix Compfort,2023-08-18 06:53:12,433.73,PAID,62 Gale Avenue,City9,Country9
+a18c9cdd-991d-46ed-a926-3bce801a1ea8,Moreen Daintry,Helene Medd,2023-04-02 05:56:36,386.17,PAID,42487 Oak Valley Trail,City10,Country10
+dcd03c88-aeba-4d30-befa-fc85f52f7c88,Logan Artis,Isahella Hurdwell,2023-07-02 08:06:28,841.46,PAID,9645 American Ash Terrace,City11,Country11
+dbbffc9f-fb2d-49ca-afd1-9b3558bb597c,Clarie Durek,Graeme Kyle,2023-10-25 01:23:51,305.88,UNPAID,9645 Meadow Ridge Alley,City12,Country12
+ea92fce2-7ab6-4836-918f-b4ea68483ae8,Lani Hickford,Hyatt Duell,2023-09-03 09:36:43,1145.1,PAID,95 Melody Lane,City13,Country13
+4e760139-85c0-4686-a152-cb5979b01e80,Jock Groarty,Everett Moffat,2023-12-21 19:54:49,1308.32,PAID,38770 Basil Center,City14,Country14
+250ec20a-b0ed-40e8-95ed-e99dd6a8f8e9,Tuckie Bullion,Elsi Toopin,2023-08-03 13:42:06,133.75,PAID,2 Northwestern Crossing,City15,Country15
+f3052137-4c7b-4cbf-ba91-ba65301d74bf,Klarika Cant,Shanta Gieraths,2023-03-18 13:39:16,516.94,PAID,2 Atwood Lane,City16,Country16
+cfcd20b4-0bc6-4bdf-b954-3452622b06b7,Nikola Glew,Geno Maxted,2023-02-10 10:49:02,1609.79,PAID,8439 Starling Avenue,City17,Country17
+3b19f883-bf63-48a5-9bd9-e4851a443649,Deeanne Brotherheed,Adam Gosalvez,2023-03-18 19:29:41,1001.92,PAID,2 Hooker Way,City18,Country18
+60a75519-781b-4808-8c9d-27ff7fe447d3,Gabbi Dasent,Yank Iacivelli,2023-12-04 15:44:00,1506.9,PAID,5883 Sunfield Parkway,City19,Country19
+822dd0a3-e16e-4aa7-abe5-9b4ee49210f9,Cosme Hazell,Herman Lightbowne,2023-04-20 00:50:51,1140.97,PAID,04 Graceland Trail,City20,Country20

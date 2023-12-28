@@ -10,10 +10,9 @@
     xmlns="sap.m"
     height="100%"
 >
-    <Page
-        id="page"
-        title="{i18n>title}"
-    >
+    <ObjectHeader title="Bills Management" />
+    <Page id="page">
+        <headerContent />
         <content>
             <Table
                 id="tbBills"
@@ -32,44 +31,53 @@
                             text="ADD"
                             icon="sap-icon://add"
                         />
-                        <OverflowToolbarButton
-                            icon="sap-icon://sort"
-                            text="Sort"
-                        />
-                        <OverflowToolbarButton
-                            icon="sap-icon://filter"
-                            text="Filter"
-                        />
-                        <OverflowToolbarButton
-                            icon="sap-icon://group"
-                            text="Group"
+                        <Button
+                            type="Emphasized"
+                            text="Refresh"
+                            icon="sap-icon://synchronize"
+                            press=".onRefresh"
                         />
                     </Toolbar>
                 </headerToolbar>
                 <columns>
                     <Column
                         id="colID"
-                        width="40px"
+                        width="120px"
                     >
                         <Label
                             id="lbId"
                             text="ID"
                         />
                     </Column>
-                    <Column width="auto">
+                    <Column width="150px">
                         <Text text="Customer" />
                     </Column>
-                    <Column width="auto">
+                    <Column width="150px">
                         <Text text="Exporter" />
                     </Column>
                     <Column width="auto">
                         <Text text="Created At" />
                     </Column>
                     <Column width="auto">
+                        <Text text="Address" />
+                    </Column>
+                    <Column width="auto">
+                        <Text text="City" />
+                    </Column>
+                    <Column width="auto">
+                        <Text text="Country" />
+                    </Column>
+                    <Column width="140px">
                         <Text text="Total" />
                     </Column>
-                    <Column width="65px">
-                        <Text text="Action" />
+                    <Column width="80px">
+                        <Text text="Status" />
+                    </Column>
+                    <Column width="100px">
+                        <Text
+                            text="Action"
+                            textAlign="Center"
+                        />
                     </Column>
                 </columns>
                 <items>
@@ -82,7 +90,16 @@
                             <ObjectIdentifier title="{bills>ID}" />
                             <Text text="{bills>customer}" />
                             <Text text="{bills>exporter}" />
-                            <Text text="{bills>createdAt}" />
+                            <Text
+                                text="{path: 'bills>createdAt', 
+                                    formatter: '.formatter.formatDate'}"
+                            />
+                            <Text
+                                text="{path: 'bills>address'
+                                    }"
+                            />
+                            <Text text="{path: 'bills>city'}" />
+                            <Text text="{path: 'bills>country'}" />
                             <Text
                                 text="{parts: [
                                             {path: 'bills>total'}
@@ -94,50 +111,32 @@
                                                 oLocate: 'en_UK'
                                             }}"
                             />
-                            <Button
-                                icon="sap-icon://delete"
-                                press=".onCancelOrder"
-                                type="Negative"
+                            <!-- <Text text="{bills>status}" /> -->
+                            <ObjectStatus
+                                inverted="true"
+                                text="{bills>status}"
+                                state="{path: 'bills>status',
+                                        formatter: '.formatter.formatBillStatus'}"
                             />
+                            <HBox>
+                                <Button
+                                    icon="sap-icon://download"
+                                    press=".onDownload"
+                                    type="Default"
+                                    enabled="{= ${bills>status} === 'CANCEL' ? false : true }"
+                                />
+                                <Button
+                                    icon="sap-icon://sys-cancel-2"
+                                    press=".onCancelOrder"
+                                    type="Default"
+                                    class="iconBtn"
+                                    enabled="{= ${bills>status} === 'CANCEL' ? false : true }"
+                                />
+                            </HBox>
                         </cells>
                     </ColumnListItem>
                 </items>
             </Table>
-            <OverflowToolbar>
-                <ToolbarSpacer />
-                <Button
-                    id="btnFirstPage"
-                    icon="sap-icon://close-command-field"
-                    press=".onFirstPress"
-                    tooltip="First"
-                    type="Transparent"
-                />
-                <Button
-                    id="btnPrevPage"
-                    icon="sap-icon://navigation-left-arrow"
-                    press=".onPrevPress"
-                    tooltip="Previous"
-                    type="Transparent"
-                />
-                <Text
-                    id="PageTextId"
-                    text="Page 1 of 1"
-                />
-                <Button
-                    id="btnNextPage"
-                    icon="sap-icon://navigation-right-arrow"
-                    press=".onNextPress"
-                    tooltip="Next"
-                    type="Transparent"
-                />
-                <Button
-                    id="btnLastPage"
-                    icon="sap-icon://open-command-field"
-                    press=".onLastPress"
-                    tooltip="Last"
-                    type="Transparent"
-                />
-            </OverflowToolbar>
         </content>
     </Page>
 </mvc:View>

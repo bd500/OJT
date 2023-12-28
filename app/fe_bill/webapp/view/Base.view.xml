@@ -1,4 +1,6 @@
 <mvc:View
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
     xmlns:f="sap.f"
     controllerName="febill.controller.Base"
     xmlns="sap.m"
@@ -6,101 +8,97 @@
     xmlns:tnt="sap.tnt"
     height="100%"
 >
-    <tnt:ToolPage id="toolPage">
-        <tnt:header>
-            <f:ShellBar
-                id="header"
-                title="OJT"
-                homeIcon="https://i.imgur.com/9D6Arik.jpeg"
-                menuButtonPressed=".onMenuToggle"
-                showNotifications="true"
+    <Page>
+        <VBox>
+            <FlexBox
+                justifyContent="Center"
+                width="100%"
             >
-                <f:profile>
-                    <Avatar />
-                </f:profile>
-            </f:ShellBar>
-        </tnt:header>
-        <tnt:sideContent>
-            <tnt:SideNavigation id="sideNav">
-                <tnt:item>
-                    <tnt:NavigationList itemSelect="onItemSelect">
-                        <tnt:NavigationListItem
-                            icon="sap-icon://home"
-                            text="Home"
-                            id="navItemHome"
-                            key="home"
+                <VBox>
+                    <FlexBox>
+                        <Label text="Create a new Bill:" />
+                    </FlexBox>
+                    <HBox>
+                        <VBox>
+                            <Label text="ID" />
+                            <Input
+                                id="editId"
+                                editable="false"
+                            />
+                        </VBox>
+                        <VBox>
+                            <Label text="Status" />
+                            <Input
+                                editable="false"
+                                id="editStatus"
+                                value="PAID"
+                            />
+                        </VBox>
+                    </HBox>
+                    <HBox>
+                        <VBox>
+                            <Label text="Customer:" />
+                            <Input
+                                id='editCustomer'
+                                placeholder="Enter name"
+                            />
+                        </VBox>
+                        <VBox>
+                            <Label text="Exporter:" />
+                            <Input placeholder="Enter name" />
+                        </VBox>
+                    </HBox>
+                    <VBox>
+                        <Label text="Address" />
+                        <Input
+                            editable="false"
+                            id="Address"
+                            value="244 Nguyen Van Linh"
                         />
-                        <tnt:NavigationListItem
-                            icon="sap-icon://sales-order-item"
-                            text="Bills"
-                            id="navItemBills"
-                            key="bills"
+                    </VBox>
+                    <Toolbar
+                        class='separator'
+                        width="100%"
+                        height="1px"
+                    />
+                    <Label
+                        text="Purchased Items"
+                        design="Bold"
+                    />
+                    <VBox id="vbEditItemsContainer">
+                        <HBox>
+                            <VBox>
+                                <Label text="Item" />
+                                <Input value="Knife" />
+                            </VBox>
+                            <VBox>
+                                <Label text="Quantity" />
+                                <Input placeholder="Enter quantity" />
+                            </VBox>
+                            <VBox>
+                                <Label text="Unit price" />
+                                <Label text="120.99" />
+                            </VBox>
+                            <VBox>
+                                <Label text="Total" />
+                                <Label text="120.99 x 12" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                    <Toolbar
+                        class='separator'
+                        width="100%"
+                        height="1px"
+                    />
+                    <HBox>
+                        <Label text="Subtotal: ($)" />
+                        <Input
+                            value="100"
+                            editable="false"
                         />
-                        <tnt:NavigationListItem
-                            id="navItemProducts"
-                            icon="sap-icon://product"
-                            text="Products"
-                            key="items"
-                        />
-                        <tnt:NavigationListItem
-                            id="navItemHistory"
-                            icon="sap-icon://history"
-                            text="History"
-                            key="History"
-                        />
-                    </tnt:NavigationList>
-                </tnt:item>
-            </tnt:SideNavigation>
-        </tnt:sideContent>
-        <tnt:mainContents>
-            <NavContainer
-                id="pageContainer"
-                initialPage="home"
-            >
-                <pages>
-                    <ScrollContainer
-                        height="100%"
-                        id="home"
-                    >
-                        <Text text="Home" />
-                    </ScrollContainer>
-
-                    <ScrollContainer
-                        id="bills"
-                        height="100%"
-                        vertical="true"
-                        horizontal="false"
-                    >
-                        <mvc:XMLView
-                            viewName="febill.view.Bills"
-                            type="XML"
-                            height="100%"
-                        />
-                    </ScrollContainer>
-
-                    <ScrollContainer
-                        id="his"
-                        height="100%"
-                    >
-                        <mvc:XMLView
-                            type="XML"
-                            viewName="febill.view.History"
-                        />
-                    </ScrollContainer>
-
-                    <ScrollContainer
-                        id="items"
-                        height="100%"
-                        vertical="true"
-                        horizontal="false"
-                    >
-                        <mvc:XMLView
-                            type="XML"
-                            viewName="febill.view.ItemsView"
-                        />
-                    </ScrollContainer>
-                </pages>
-            </NavContainer>
-        </tnt:mainContents>
-    </tnt:ToolPage>
+                    </HBox>
+                </VBox>
+            </FlexBox>
+        </VBox>
+    </Page>
 </mvc:View>

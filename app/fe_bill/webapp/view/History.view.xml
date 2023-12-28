@@ -1,4 +1,5 @@
 <mvc:View
+    xmlns:semantic="sap.f.semantic"
     xmlns:cards="sap.f.cards"
     xmlns:table="sap.ui.table"
     xmlns:f="sap.f"
@@ -9,13 +10,58 @@
     displayBlock="true"
     xmlns="sap.m"
 >
-    <Page id="historyPage">
+    <!-- <ObjectHeader title="History" /> -->
+
+    <!-- <Page id="historyPage">
         <List
             id="historyList"
             items="{history>/value}"
-            headerText="History"
         >
             <ObjectListItem title="{history>quantity}" />
         </List>
-    </Page>
+    </Page> -->
+    <semantic:SemanticPage id="historyPage">
+        <semantic:content>
+            <Table items="{
+                path:'history>/value'
+            }">
+                <columns>
+                    <Column>
+                        <Text text="Product's Name" />
+                    </Column>
+                    <Column>
+                        <Text text="Date" />
+                    </Column>
+                    <Column hAlign="Center">
+                        <Text text="Change in stock" />
+                    </Column>
+                    <Column>
+                        <Text text="Note" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <ObjectIdentifier title="{history>item/name}" />
+                            <ObjectIdentifier
+                                title="{path: 'history>date',
+                                formatter: '.formatter.formatDate'}"
+                            />
+                            <ObjectNumber
+                                number="{history>quantity}"
+                                state="{path:'history>quantity', 
+                                        formatter: '.formatter.formatItemChange'}"
+                            />
+                            <ObjectStatus
+                                inverted="true"
+                                text="{history>note}"
+                                state="{path: 'history>note',
+                                        formatter: '.formatter.formatHistoryNote'}"
+                            />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </semantic:content>
+    </semantic:SemanticPage>
 </mvc:View>

@@ -46,6 +46,7 @@
                             <Input
                                 id="editAddress"
                                 editable="false"
+                                width="350px"
                             />
                         </VBox>
                         <VBox>
@@ -53,7 +54,7 @@
                             <DatePicker
                                 id="editDate"
                                 editable="false"
-                                value="{formatter: '.format.formatDate'}"
+                                width="220px"
                             />
                         </VBox>
                     </HBox>

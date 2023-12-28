@@ -10,5 +10,6 @@ service BillsManagement {
     function searchItemsByName(searchTerm : String)          returns array of Items;
     action   cancelOrder(id : String)                        returns Integer;
     action   updateOrderStatus(id : String, status : String) returns Integer;
-    action   importStock(id : String, num : Integer)         returns Integer
+    action   importStock(id : String, num : Integer)         returns Integer;
+    action   generatePdf(bill : Bills)                       returns LargeBinary;
 }

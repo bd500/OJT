@@ -204,4 +204,5 @@ module.exports = cds.service.impl(async function () {
             note: "IMPORT",
         }).into(ItemHistory);
     });
+    this.on("generatePdf", async (req, res) => {});
 });

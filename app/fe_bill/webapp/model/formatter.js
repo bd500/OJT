@@ -60,5 +60,8 @@ sap.ui.define(["sap/ui/core/format/DateFormat"], (DateFormat) => {
             }
             return status;
         },
+        formatAddress(info) {
+            return `${info.address}, ${info.city}, ${info.country}`;
+        },
     };
 });

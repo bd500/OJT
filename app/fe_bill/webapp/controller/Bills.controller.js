@@ -83,7 +83,9 @@ sap.ui.define(
                 const txtExporter = this.byId("txtExporter").getValue();
                 const vbItems = this.byId("vbItems").getItems();
                 const selStatus = this.byId("selStatus").getSelectedKey();
-                const txtAddress = this.byId("txtAddress").getText();
+                const txtAddress = this.byId("txtAddress").getValue();
+                const txtCity = this.byId("txtCity").getValue();
+                const txtCountry = this.byId("txtCountry").getValue();
                 // let total = 0;
                 const subtotal = this.byId("createSubTotal").getText();
                 try {
@@ -103,7 +105,9 @@ sap.ui.define(
                         items: buyItems,
                         total: parseFloat(subtotal),
                         status: selStatus,
-                        // address: txtAddress
+                        address: txtAddress,
+                        city: txtCity,
+                        country: txtCountry,
                     };
                     /**
                      *
@@ -216,6 +220,7 @@ sap.ui.define(
                 const selDate = oModel.getProperty(sPath + "/createdAt");
                 const selId = oModel.getProperty(sPath + "/ID");
                 const selStatus = oModel.getProperty(sPath + "/status");
+                const cells = oEvent.getSource().getCells();
 
                 if (!this.oDetailsDialog) {
                     this.oDetailsDialog = this.loadFragment({
@@ -226,12 +231,15 @@ sap.ui.define(
                 const dialog = await this.oDetailsDialog;
                 dialog.setTitle(`Details ID: ${selId}`);
                 dialog.open();
+                const fullAddress = `${cells[4].getText()}, ${cells[5].getText()}, ${cells[6].getText()}`;
                 this.byId("editId").setText(selId);
                 this.byId("editCustomer").setValue(selCustomer);
                 this.byId("editExporter").setValue(selExporter);
-                this.byId("editDate").setValue(selDate);
+                // this.byId("editDate").setValue(selDate);
                 this.byId("editTotal").setText(`$${selTotal}`);
                 this.byId("editStatus").setText(selStatus);
+                this.byId("editAddress").setValue(fullAddress);
+                this.byId("editDate").setValue(cells[3].getText());
 
                 const btnUpdate = this.byId("btnUpdate");
                 selStatus === "PAID"

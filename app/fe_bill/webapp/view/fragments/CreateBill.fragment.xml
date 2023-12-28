@@ -55,13 +55,29 @@
                             </VBox>
                         </HBox>
                         <HBox />
-                        <VBox>
-                            <Label text="Address" />
-                            <Input
-                                id="txtAddress"
-                                required="true"
-                            />
-                        </VBox>
+                        <HBox>
+                            <VBox>
+                                <Label text="Address" />
+                                <Input
+                                    id="txtAddress"
+                                    required="true"
+                                />
+                            </VBox>
+                            <VBox>
+                                <Label text="City" />
+                                <Input
+                                    id="txtCity"
+                                    required="true"
+                                />
+                            </VBox>
+                            <VBox>
+                                <Label text="Country" />
+                                <Input
+                                    id="txtCountry"
+                                    required="true"
+                                />
+                            </VBox>
+                        </HBox>
                         <Toolbar
                             class='separator'
                             width="100%"

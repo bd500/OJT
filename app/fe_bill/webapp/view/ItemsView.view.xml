@@ -50,6 +50,14 @@
             id="idStock"
             class="customInput"
         />
+        <Label
+            text="Unit"
+            class="customLabel"
+        />
+        <Input
+            class="customInput"
+            id="addItemUnit"
+        />
     </Dialog>
 
     <Dialog
@@ -86,6 +94,14 @@
             class="customInput1"
             id="updateItemStock"
             enabled="false"
+        />
+        <Label
+            text="Unit"
+            class="customLabel1"
+        />
+        <Input
+            class="customInput1"
+            id="updateItemUnit"
         />
         <buttons>
             <Button
@@ -196,6 +212,15 @@
                             id="StockColumnTitle"
                         />
                     </Column>
+                    <Column
+                        id="UnitColumn"
+                        width="90px"
+                    >
+                        <Text
+                            text="Unit"
+                            id="UnitColumnTitle"
+                        />
+                    </Column>
                     <Column id="HistoryColumn">
                         <Text
                             text="History"
@@ -224,6 +249,7 @@
                                 state="{path: 'items>stock', 
                                     formatter: '.formatter.formatQuantity'}"
                             />
+                            <Text text="{items>unit}" />
                             <Text
                                 text="{path: 'items>history',
                                         formatter: '.formatter.formatLastDate'}"

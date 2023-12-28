@@ -37,14 +37,6 @@
                             icon="sap-icon://synchronize"
                             press=".onRefresh"
                         />
-                        <OverflowToolbarButton
-                            icon="sap-icon://sort"
-                            text="Sort"
-                        />
-                        <OverflowToolbarButton
-                            icon="sap-icon://filter"
-                            text="Filter"
-                        />
                     </Toolbar>
                 </headerToolbar>
                 <columns>
@@ -65,6 +57,15 @@
                     </Column>
                     <Column width="auto">
                         <Text text="Created At" />
+                    </Column>
+                    <Column width="auto">
+                        <Text text="Address" />
+                    </Column>
+                    <Column width="auto">
+                        <Text text="City" />
+                    </Column>
+                    <Column width="auto">
+                        <Text text="Country" />
                     </Column>
                     <Column width="140px">
                         <Text text="Total" />
@@ -93,6 +94,12 @@
                                 text="{path: 'bills>createdAt', 
                                     formatter: '.formatter.formatDate'}"
                             />
+                            <Text
+                                text="{path: 'bills>address'
+                                    }"
+                            />
+                            <Text text="{path: 'bills>city'}" />
+                            <Text text="{path: 'bills>country'}" />
                             <Text
                                 text="{parts: [
                                             {path: 'bills>total'}

@@ -24,6 +24,7 @@ entity Items : cuid {
     name    : String;
     price   : Double;
     stock   : Integer;
+    unit    : String(15);
     bill    : Composition of many BillItems
                   on bill.item = $self;
     history : Composition of many ItemHistory
@@ -38,6 +39,9 @@ entity Bills : cuid {
     items     : Composition of many BillItems
                     on items.bill = $self;
     status    : BillStatus;
+    address   : String;
+    city      : String;
+    country   : String;
     total     : Double;
 }
 

@@ -39,11 +39,13 @@ sap.ui.define(
                     const itemName = this.byId("idItemName").getValue();
                     const itemPrice = this.byId("idPrice").getValue();
                     const itemStock = this.byId("idStock").getValue();
+                    const unitStock = this.byId("addItemUnit").getValue();
 
                     const data = {
                         name: itemName,
                         price: parseFloat(itemPrice),
                         stock: parseInt(itemStock, 10),
+                        unit: unitStock,
                     };
 
                     const response = await fetch("/bills/Items", {
@@ -161,6 +163,7 @@ sap.ui.define(
                 this.byId("updateItemName").setValue(oSelectedItem.name);
                 this.byId("updateItemPrice").setValue(oSelectedItem.price);
                 this.byId("updateItemStock").setValue(oSelectedItem.stock);
+                this.byId("updateItemUnit").setValue(oSelectedItem.unit);
 
                 this.oUpdateDialog.open();
             },
@@ -178,6 +181,7 @@ sap.ui.define(
                     name: this.byId("updateItemName").getValue(),
                     price: parseFloat(this.byId("updateItemPrice").getValue()),
                     stock: parseInt(this.byId("updateItemStock").getValue()),
+                    unit: this.byId("updateItemUnit").getValue(),
                 };
 
                 try {
@@ -192,6 +196,7 @@ sap.ui.define(
                                 name: oItem.name,
                                 price: oItem.price,
                                 stock: oItem.stock,
+                                unit: oItem.unit,
                             }),
                         }
                     );

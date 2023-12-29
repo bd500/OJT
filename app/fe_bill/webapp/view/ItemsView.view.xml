@@ -163,7 +163,7 @@
                             press=".onRefresh"
                         />
 
-                        <SearchField
+                        <!-- <SearchField
                             id="searchField"
                             tooltip="{i18n>ItemsSearchTooltip}"
                             search=".onSearch"
@@ -174,7 +174,7 @@
                                     priority="NeverOverflow"
                                 />
                             </layoutData>
-                        </SearchField>
+                        </SearchField> -->
                     </OverflowToolbar>
                 </headerToolbar>
 

@@ -33,10 +33,6 @@ sap.ui.define(
         const calTotal = (items) => {
             let res = 0;
             items.map((i) => {
-                // const hb = i.getItems();
-                // const quantity = parseInt(hb[1].getValue());
-                // const price = hb[2].getText();
-                // res += price * quantity;
                 const total = parseFloat(i.getItems()[3].getText());
                 res += total;
             });
@@ -135,6 +131,7 @@ sap.ui.define(
                         throw new Error(await res.text());
                     }
                     new sap.m.MessageBox.success("Success");
+                    this.onRefresh();
 
                     // this.getView().getModel("bills").refresh(true)
                     this.byId("addBillDialog").close();
@@ -301,6 +298,7 @@ sap.ui.define(
                     new sap.m.MessageBox.success(
                         "Successfully cancel the bill"
                     );
+                    this.onRefresh();
                 } catch (error) {
                     new sap.m.MessageBox.error(error.message);
                 }
@@ -319,6 +317,7 @@ sap.ui.define(
                         throw new Error(await res.text());
                     }
                     new sap.m.MessageBox.success("This bill is now paid");
+                    this.onRefresh();
                     this.byId("detailsDialog").close();
                 } catch (error) {
                     new sap.m.MessageBox.error(error.message);
@@ -340,13 +339,6 @@ sap.ui.define(
             onRefresh: async function (oEvent) {
                 const oBillsModel = await models.getBills();
                 this.getView().setModel(oBillsModel, "bills");
-            },
-            onDownload: async function (oEvent) {
-                const cells = oEvent
-                    .getSource()
-                    .getParent()
-                    .getParent()
-                    .getCells();
             },
         });
     }

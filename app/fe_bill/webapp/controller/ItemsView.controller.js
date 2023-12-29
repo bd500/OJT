@@ -59,6 +59,7 @@ sap.ui.define(
                     if (response.ok) {
                         new sap.m.MessageToast.show("Item added successfully!");
                         this.refreshTable();
+                        this.onRefresh();
                     } else {
                         const errorText = await response.text();
                         new sap.m.MessageToast.show(
@@ -111,6 +112,7 @@ sap.ui.define(
                             "Item deleted successfully"
                         );
                         this.refreshTable();
+                        this.onRefresh();
                     } else {
                         console.error(
                             `Error deleting item: ${response.status} - ${response.statusText}`
@@ -206,6 +208,7 @@ sap.ui.define(
                             "Item has been successfully updated!"
                         );
                         this.refreshTable();
+                        this.onRefresh();
                     } else {
                         const errorText = await responseHistory.text();
                         console.error(
@@ -256,6 +259,7 @@ sap.ui.define(
                         throw new Error(await res.text());
                     }
                     new sap.m.MessageBox.success("Success");
+                    this.onRefresh();
 
                     // this.getView().getModel("bills").refresh(true)
                     this.byId("importDialog").close();

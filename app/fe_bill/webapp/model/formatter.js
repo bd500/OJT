@@ -15,11 +15,6 @@ sap.ui.define(["sap/ui/core/format/DateFormat"], (DateFormat) => {
         formatLastDate(history) {
             if (history.length === 0) return "No information";
 
-            // const oDateFormat = DateFormat.getDateInstance({
-            //     pattern: "MMM dd, yyyy, hh:mm:ss a",
-            // });
-            // const oDate = new Date(history[history.length - 1].date);
-            // return oDateFormat.format(oDate);
             return toTime(history[history.length - 1].date);
         },
         formatItemChange(sItem) {

@@ -171,15 +171,6 @@ module.exports = cds.service.impl(async function () {
     this.after(["PATCH", "PUT"], "Items", async (res) => {
         const date = new Date().toISOString();
 
-        // const latestItemHistory = await SELECT.from(ItemHistory)
-        //     .where({ item_ID: res.ID })
-        //     .orderBy({ date: "desc" })
-        //     .limit(1);
-
-        // console.log("last quantity: " + latestItemHistory[0].quantity);
-        // console.log("stock: " + res.stock);
-        // const currentQuantity = res.stock - latestItemHistory[0].quantity;
-
         await INSERT.into(ItemHistory).entries({
             item_ID: res.ID,
             date: date,

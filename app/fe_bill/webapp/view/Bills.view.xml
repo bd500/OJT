@@ -49,10 +49,10 @@
                             text="ID"
                         />
                     </Column>
-                    <Column width="150px">
+                    <Column width="auto">
                         <Text text="Customer" />
                     </Column>
-                    <Column width="150px">
+                    <Column width="auto">
                         <Text text="Exporter" />
                     </Column>
                     <Column width="auto">
@@ -67,7 +67,7 @@
                     <Column width="auto">
                         <Text text="Country" />
                     </Column>
-                    <Column width="140px">
+                    <Column width="auto">
                         <Text text="Total" />
                     </Column>
                     <Column width="80px">
@@ -119,12 +119,12 @@
                                         formatter: '.formatter.formatBillStatus'}"
                             />
                             <HBox>
-                                <Button
+                                <!-- <Button
                                     icon="sap-icon://download"
                                     press=".onDownload"
                                     type="Default"
                                     enabled="{= ${bills>status} === 'CANCEL' ? false : true }"
-                                />
+                                /> -->
                                 <Button
                                     icon="sap-icon://sys-cancel-2"
                                     press=".onCancelOrder"
